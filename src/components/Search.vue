@@ -1,6 +1,6 @@
 <template>
   <div id="storeBox">
-      <TitleBar/>
+      <TitleBar message='门店'/>
       <div class="card">
 
       </div>

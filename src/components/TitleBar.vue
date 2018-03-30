@@ -5,9 +5,10 @@
 </template>
 <script>
     export default {
+        props:['message'],
         data() {
             return {
-                message:'卡片'
+                
             }
         }
     }
