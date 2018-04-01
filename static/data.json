@@ -1,0 +1,46 @@
+{
+  "ret": true,
+  "data": {
+    "swiperlist": [{
+      "id": "6001",
+      "imgUrl": "http://yanxuan.nosdn.127.net/26b93061fef99038d7ca8f2fbb7b59b1.png?imageView&thumbnail=750x0&quality=75"
+    }, {
+      "id": "6002",
+      "imgUrl": "http://yanxuan.nosdn.127.net/cd37e87834819cd7a386c5feac5779f3.jpg?imageView&thumbnail=750x0&quality=75"
+    }, {
+      "id": "6003",
+      "imgUrl": "http://yanxuan.nosdn.127.net/60132cf7df2011f47dce5a93a36d4ebe.jpg?imageView&thumbnail=750x0&quality=75"
+    }, {
+      "id": "6004",
+      "imgUrl": "http://yanxuan.nosdn.127.net/868314366c83358ccb18021109c0d144.jpg?imageView&thumbnail=750x0&quality=75"
+    }, {
+      "id": "6005",
+      "imgUrl": "http://yanxuan.nosdn.127.net/1bc21d408f79c911476a8bb1a726f731.jpg?imageView&thumbnail=750x0&quality=75"
+    }],
+    "character": [{
+      "id": "6011",
+      "imgUrl": "http://yanxuan.nosdn.127.net/03e9ebc98168a6e284eb57b36c9067ff.jpg",
+      "first": "源于日本",
+      "second": "正圆花珠"
+    }, {
+      "id": "6012",
+      "imgUrl": "http://yanxuan.nosdn.127.net/7de428e54cc40b163f6a0068796d1b79.jpg",
+      "first": "18K金",
+      "second": "曼妙光泽"
+    }, {
+      "id": "6013",
+      "imgUrl": "http://yanxuan.nosdn.127.net/e86e1c9b390bcfc3a15a9264c20ef9e8.jpg",
+      "first": "百里挑一",
+      "second": "永恒经典"
+    }],
+    "des": [{
+      "id": "6021",
+      "title": "日本AKOYA天然海水珍珠18K金项链",
+      "desc": "GGC专业认证，日本顶级花珠",
+      "price": "999",
+      "tag": "新品",
+      "comment": "120",
+      "select": "珍珠项链"
+    }]
+  }
+}
