@@ -1,7 +1,6 @@
 <template>
-	<h1>This is Index module!</h1>
+	<h1>This is Search module!</h1>
 	<a href="about.html">about</a>
-	<a href="search.html">search</a>
 </template>
 
 <script></script>
