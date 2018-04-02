@@ -5,7 +5,9 @@
 			<div class="titleBar">卡片</div>
 			<div class="cBody">
 				<div class="cImg">
-					<div></div>
+					<div class="cLogo">
+						<img src="../../assets/img/卡1图.png" alt="院子餐厅" />
+					</div>
 				</div>
 			</div>
 		</div>
@@ -73,11 +75,22 @@
 		padding: 0 0.3rem 0;
 	}
 	.cImg{
+		position: relative;
 		height: 2.74rem;
 		background: url(../../assets/img/card3.png) no-repeat center center;
 		background-size: 100%; 
-		padding: .4rem 0;
+		margin: .4rem 0;
 		border-bottom: 1px solid #ECECEC;
+	}
+	.cLogo{
+		width: .96rem;
+		height: .96rem;
+		position: absolute;
+		top: .28rem;
+		left: .28rem;
+	}
+	.cLogo img{
+		width: 100%;
 	}
 	.eshop{
 		margin-bottom: .6rem;
@@ -92,14 +105,15 @@
 		padding: 0;
 		overflow: hidden;
 		height: auto;
+		display: flex;
+		justify-content: space-around;
+		flex-wrap: wrap;
 	}
 	.sBody ul li{
 		list-style: none;
-		float: left;
 		width: 3.6rem;
 		height: 4.2rem;
 		background: gold;
-		margin-right: .1rem;
 		margin-bottom: .1rem;
 	}
 	.sBody ul li:nth-child(2n){
