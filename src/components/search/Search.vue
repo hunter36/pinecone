@@ -36,12 +36,18 @@
 				<ul>
 					<li>
 						<div class="sImg"></div>
+						<h1>DIBA 东邦皮肤管理中心</h1>
+						<p>万象城店<span>&lt;230m</span></p>
 					</li>
 					<li>
 						<div class="sImg"></div>
+						<h1>DIBA 东邦皮肤管理中心</h1>
+						<p>万象城店<span>&lt;230m</span></p>
 					</li>
 					<li>
 						<div class="sImg"></div>
+						<h1>DIBA 东邦皮肤管理中心</h1>
+						<p>万象城店<span>&lt;230m</span></p>
 					</li>
 					<li class="block"></li>
 				</ul>
@@ -51,7 +57,13 @@
 			<div class="titleBar">电商</div>
 			<div class="eBody">
 				<div class="eBanner"></div>
-				<div class="eMessage"></div>
+				<div class="eMessage">
+					<div>
+						<h3>花花公子男装商场</h3>
+						<p>与专柜同步，更优惠、优先收到 新鞋图册。</p>
+					</div>
+					<div class="toDetails">查看详情</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -215,20 +227,40 @@
 	.sBody ul li{
 		list-style: none;
 		box-sizing: border-box;
+		padding: .1rem;
+		padding-bottom: .2rem; 
 		width: 3.6rem;
 		height: 4.2rem;
-		background: gold;
 		margin-bottom: .1rem;
 		border: 1px solid #ECECEC;
 		border-radius: 5px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
 	}
 	.sBody ul .block{
 		height: 0;
 		border: none;
+		margin: 0;
+		padding: 0;
 	}
 	.sBody ul li .sImg{
 		width: 3.4rem;
 		height: 2.26rem;
+		margin: 0 auto .3rem;
+		background: url(../../assets/img/门店1图.png) no-repeat center center;
+		background-size: 100%;
+	}
+	.sBody ul li h1{
+		font-size: .28rem;
+		color: #333;
+		flex: 1;
+	}
+	.sBody ul li p{
+		font-size: .24rem;
+		color: #666;
+		display: flex;
+		justify-content: space-between;
 	}
 	.eBody{
 		width: 100%;
@@ -242,5 +274,24 @@
 	}
 	.eMessage{
 		height: 1.12rem;
+		box-sizing: border-box;
+		padding: .2rem .3rem;
+		display: flex;
+		justify-content: space-between;
+	}
+	.eMessage h3{
+		font-size: .28rem;
+		color: #333;
+	}
+	.eMessage p{
+		font-size: .22rem;
+		color: #999;
+	}
+	.toDetails{
+		font-size: .26rem;
+		color: #F9A724;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 </style>
