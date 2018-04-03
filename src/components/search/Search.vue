@@ -210,6 +210,7 @@
 		margin-bottom: .6rem;
 	}
 	.sBody{
+		width: 100%;
 		box-sizing: border-box;
 		padding: .19rem .1rem .21rem;
 		height: auto;
