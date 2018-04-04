@@ -1,5 +1,4 @@
 <template>
-	<h1>This is Search module!</h1>
 	<div class="box">
 		<div class="card views">
 			<div class="titleBar">卡片</div>
@@ -29,6 +28,33 @@
 					</div>
 				</div>
 			</div>
+			<div class="cBody" v-show="cardFlag">
+				<div class="cImg">
+					<div class="cTop">
+						<dl>
+							<dt><div class="cLogo"></div></dt>
+							<dd>
+								<h3>团圆佳节卡</h3>
+								<p>院子餐厅</p>
+							</dd>
+						</dl>
+						<div class="credit">
+							<p>您的预估额度为</p>
+							<h2><b>￥</b>2300<span>.00</span></h2>
+						</div>
+					</div>
+					<div class="line"></div>
+					<div class="cBottom">
+						<div class="cTips">
+							<p><i><img src="../../assets/img/付.png"></i>支付方式<span>信用支付</span></p>
+							<p><i><img src="../../assets/img/条件.png"></i>申请条件<span>信用支付</span></p>
+							<p><i><img src="../../assets/img/地址.png"></i>适用范围<span>信用支付</span></p>
+							<p><i><img src="../../assets/img/期限.png"></i>有效期限<span>信用支付</span></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="button" @click="switchLoadCard">{{cardTab}}</div>
 		</div>
 		<div class="store views">
 			<div class="titleBar">门店</div>
@@ -44,14 +70,15 @@
 						<h1>DIBA 东邦皮肤管理中心</h1>
 						<p>万象城店<span>&lt;230m</span></p>
 					</li>
-					<li>
+					<li v-show="storeFlag">
 						<div class="sImg"></div>
 						<h1>DIBA 东邦皮肤管理中心</h1>
 						<p>万象城店<span>&lt;230m</span></p>
 					</li>
-					<li class="block"></li>
+					<li class="block" v-show="storeFlag"></li>
 				</ul>
 			</div>
+			<div class="button" @click="switchLoadStore">{{storeTab}}</div>
 		</div>
 		<div class="eshop views">
 			<div class="titleBar">电商</div>
@@ -65,12 +92,63 @@
 					<div class="toDetails">查看详情</div>
 				</div>
 			</div>
+			<div class="eBody" v-show="eshopFlag">
+				<div class="eBanner"></div>
+				<div class="eMessage">
+					<div>
+						<h3>花花公子男装商场</h3>
+						<p>与专柜同步，更优惠、优先收到 新鞋图册。</p>
+					</div>
+					<div class="toDetails">查看详情</div>
+				</div>
+			</div>
+			<div class="button" @click="switchLoadEShop">{{eshopTab}}</div>
 		</div>
 	</div>
 </template>
 
 <script>
-	
+    // import { MessageBox } from 'mint-ui'
+
+    export default{
+        // created:function(){
+        //     if(window.localStorage.user == null){
+        //         this.$router.push({path: '/login'})
+        //     }
+        // },
+        data(){
+            let cardFlag = false
+            let cardTab = "查看更多"
+            let storeFlag = false
+            let storeTab = "查看更多"
+            let eshopFlag = false
+            let eshopTab = "查看更多"
+            let orders_status
+            return {
+            	cardFlag, 
+            	cardTab,
+            	storeFlag,
+            	storeTab,
+            	eshopFlag,
+            	eshopTab,
+            	orders_status
+            }
+        },
+        methods:{
+            switchLoadCard: function(){
+                this.cardFlag = !this.cardFlag;
+                this.cardFlag ? this.cardTab = "收起列表" : this.cardTab = "查看更多";
+            },
+            switchLoadStore: function(){
+                this.storeFlag = !this.storeFlag;
+                this.storeFlag ? this.storeTab = "收起列表" : this.storeTab = "查看更多";
+            },
+            switchLoadEShop: function(){
+                this.eshopFlag = !this.eshopFlag;
+                this.eshopTab ? this.eshopTab = "收起列表" : this.eshopTab = "查看更多";
+            }
+        }
+    }
 </script>
 
 <style scoped>
@@ -106,6 +184,16 @@
 	.cBody{
 		box-sizing: border-box;
 		padding: 0 0.3rem 0;
+	}
+	.button{
+		width: 100%;
+		height: .7rem;
+		font-size: .24rem;
+		color: #F9A724;
+		border-top: 1px solid #ECECEC;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 	.cImg{
 		height: 2.74rem;
@@ -156,7 +244,7 @@
 		color: #fff;
 	}
 	.credit p{
-		color: rgba(255,255,255,.6);
+		color: rgba(255,255,255,.8);
 	}
 	.credit h2{
 		font-size: .48rem;
@@ -172,7 +260,7 @@
 	}
 	.cTips{
 		font-size: .22rem;
-		color: rgba(255,255,255,.6);
+		color: rgba(255,255,255,.8);
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -201,8 +289,8 @@
 		background: rgba(255,255,255,0.35);
 	}
 	.cLogo{
-		width: .96rem;
-		height: .96rem;
+		width: .75rem;
+		height: .75rem;
 		background: url(../../assets/img/卡1图.png) no-repeat center center;
 		background-size: 100%; 
 	}
