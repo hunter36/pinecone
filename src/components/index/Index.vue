@@ -1,9 +1,8 @@
 <template>
 	<h1>This is Index module!</h1>
-	<a href="about.html">about</a>
+	<a href="card.html">card</a>
 	<a href="search.html">search</a>
 </template>
-
 <script></script>
 
 <style scoped>

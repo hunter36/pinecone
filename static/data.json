@@ -41,6 +41,25 @@
       "tag": "新品",
       "comment": "120",
       "select": "珍珠项链"
-    }]
+    }],
+    "baseMsg":{
+        "show":1,
+        "company":"赫美集团",
+        "payType":"信用支付",
+        "apply":"年龄在18-35岁之间",
+        "indate":"6个月",
+        "useCard":"电商",
+        "useRange":"欧蓝-Ostore",
+        "cardIntroduce":"万达",
+        "money":"2300.00"
+    },
+    "param":{
+        "memberFee":"0.00",
+        "accountDate":"每月8号",
+        "accountStatistics":"30天",
+        "dueDate":"账单日后25天",
+        "lowestConsume":"不能低于200元",
+        "lowestAging":"不能低于200元"
+    }
   }
 }

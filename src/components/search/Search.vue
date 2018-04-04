@@ -1,5 +1,5 @@
 <template>
-	<h1>This is Search module!</h1>
+	<!-- <h1>This is Search module!</h1> -->
 	<div class="box">
 		<div class="card views">
 			<div class="titleBar">卡片</div>
@@ -201,8 +201,8 @@
 		background: rgba(255,255,255,0.35);
 	}
 	.cLogo{
-		width: .96rem;
-		height: .96rem;
+		width: .75rem;
+		height: .75rem;
 		background: url(../../assets/img/卡1图.png) no-repeat center center;
 		background-size: 100%; 
 	}
