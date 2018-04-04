@@ -1,0 +1,75 @@
+extends ../../layout
+
+block head
+    link(rel='stylesheet', href='/css/CardIndex.css')
+block content
+    .plan_add
+        ul
+            li
+                .item-top
+                    i *
+                    span.title 计划名称:
+                    span.tip 请输入催收计划名称
+                .item-con
+                    input.first(type='text')
+            li
+                .item-top
+                    i *
+                    span.title 选择逾期天数
+                    span.tip 请选择逾期天数
+                .item-con.time
+                    input(type='text', placeholder='请选择日期' data-beatpicker="true" data-beatpicker-position="['*','*']" data-beatpicker-range="true" data-beatpicker-module="gotoDate")
+            li
+                .item-top
+                    i *
+                    span.title 选择催收方式：
+                    span.tip 请选择催收方式
+                .item-con
+                    select
+                        option 请选择
+            li
+                .item-top
+                    i *
+                    span.title 选择催收组：
+                    span.tip 请选择催收团队
+                .item-con
+                    select
+                        option 请选择
+            .add_btm
+                .b_btn 确定添加
+
+    style.
+        .zeromodal-header {
+            text-align: center;
+            height: 59px;
+            line-height: 59px;
+            background: #E63F46;
+            color: #fff;
+        }
+
+        .zeromodal-close {
+            background: url("../../img/close.png") no-repeat;
+            background-size: 100% 100%;
+        }
+        .add_btm{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: #F0F3F8;
+            text-align: center;
+            line-height: 60px;
+        }
+        .add_btm .b_btn{
+            display: inline-block;
+            width: 132px;
+            height: 36px;
+            background: #DB161E;
+            border-radius: 4px;
+            text-align: center;
+            line-height: 36px;
+            font-size: 14px;
+            color: #fff;
+            cursor: pointer;
+        }

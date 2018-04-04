@@ -1,0 +1,179 @@
+extends ../../layout
+
+block head
+    link(rel='stylesheet', href='../../css/storeIndex.css')
+    link(rel='stylesheet', href='../../css/store.css')
+block content
+    include ../../include/header
+    .container
+            .content
+                include ../../lSide
+                .mainInclude
+                    .m-content.clearfix
+                        .page-title 虚拟卡市场
+                        .main-container
+                            .pagecont
+                                .mode-main
+                                    .mt
+                                        .extra.mgt
+                                            .extra-l
+                                                .ipt
+                                                    span 虚拟卡名称：
+                                                    input(type="text",value="")
+                                                .ipt
+                                                    span 虚拟卡服务商名称：
+                                                    input(type="text",value="")
+                                                .ipt
+                                                    span 虚拟卡类型：
+                                                    select
+                                                        option 全部
+                                                        option 通用信用支付卡
+                                                        option 信用支付专项卡
+                                                        option 分期支付专项卡
+                                            .extra-r
+                                                a.bpt.btn-danger(href="") 搜索
+                                                a.bpt(href="") 重置
+                                    .mc
+                                        .site-tabl-link.extra(style="margin-top:30px")
+                                            .extra-l
+                                                .tabtn.green.add#hz 发起合作
+                                        .site-t-inner
+                                            .cardItems#cardItems
+                                                for cardlist in CardList.pageList
+                                                    .cardItem
+                                                        .cBaseMsg
+                                                            .cmTop
+                                                                input.mdcheck(type="radio",name="citem",id=cardlist.sid)
+                                                                input#ksid(type="hidden",value=cardlist.aid)
+                                                                .tinfo
+                                                                    .name #{cardlist.typename}
+                                                                    .cardNum #{cardlist.sid}
+                                                                .cimg
+                                                                    img.cardlogo(src=imgUrl+ cardlist.clog)
+                                                            .cmTip
+                                                                .cTerm 申请条件
+                                                                    .tips #{cardlist.condition}
+                                                                .cTerm 应用范围
+                                                                    .tips #{cardlist.range}
+                                                        .cMockMsg
+                                                            .cInfo 卡片类型
+                                                                .info #{cardlist.maintype}
+                                                            .cInfo 服务商名称
+                                                                .info #{cardlist.card_merchant.companyname}
+                                                            .cInfo 卡服务商办公地址
+                                                                .infoB #{cardlist.card_merchant.address}
+                                                            .cInfo 卡服务商联系电话
+                                                                .infoB #{cardlist.card_merchant.companytel}
+                                                            a.view.kfz(href="javascript:void(0);")
+                                        .cardStyles
+
+
+
+
+
+    script.
+        $('#hz').click(function () {
+            //console.log('#{companyId}');
+            var d = Math.round(new Date().getTime() / 1000);
+            var hdw = $('.mdcheck:checked');
+            var adw = hdw.attr('id');
+            if (hdw.length !== 0) {
+                zeroModal.show({
+                    title: "请求合作",
+                    url: 'start_cooperate?typecode='+adw,
+                    width: '600px',
+                    height: '550px',
+                    ok: true,
+                    okTitle: '确认添加',
+                    cancel: true,
+                    okFn: function () {
+                        //var maid = $('#mdid').val();//门店对公账号
+                        var shopid = $('#merchant_aid').val();
+                        var settleperiod =$('#settleperiod').val();
+                        var changerflag =$('#changerflag').val();
+                        var changerrate =$('#changerrate').val();
+                        var settletype =$('#settletype').val();
+                        var ksid =$('#ksid').val();
+                        var resData = {
+                            Loginaid: '#{loginaid}',
+                            Settleperiod: settleperiod,
+                            Changerflag: changerflag,
+                            Changerrate: changerrate,
+                            Settletype: settletype,
+                            Merchant_aid:'#{shID}',
+                            Apptype:'1',
+                            Appstatus:'0',
+                            Card_merchan_aid:ksid,
+                            Reqaid:'#{Aid}'
+                        };
+                        if (settleperiod !== '' && changerflag !== '' && changerrate !== '' && settletype !== '' && ksid !== '') {
+                            $.post('/api/Api_CM_BINDAPPLY_A1_Request', resData, function (resA) {
+                                if (resA.status.resultcode == '0') {
+                                    var cdw = $('#'+adw).attr('data-id');
+                                    var bindid = resA.pageList[0].sid;
+                                    if (bindid) {
+                                        var resData = {
+                                            Card_type_id: '#{CardList.pageList[0].cardTypeId}',
+                                            Bindid: bindid
+                                        };
+                                        $.post('/api/Api_CM_BIND_CARDTYPES_A1_Request', resData, function (resB) {
+                                            if (resB.status.resultcode == '0') {
+                                                var rQdata = {
+                                                    Shopaid: shopid,
+                                                    Shoptype: '0',
+                                                    Bindid: bindid
+                                                };
+                                                $.post('/api/Api_CM_BIND_SHOP_A1_Request', rQdata, function (resC) {
+                                                    if (resC.status.resultcode == "0") {
+                                                        zeroModal.alert('合作邀请已发送')
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    } else {
+                                        zeroModal.alert('合作邀请发送失败')
+                                    }
+                                }
+                            });
+                        }else{
+                            zeroModal.error('请填写所有信息后再次提交!!')
+                        }
+                    }
+                });
+            } else {
+                zeroModal.error('请先选择想要合作的卡片');
+            }
+        })
+        $(document).ready(function () {
+            var cardItem = $('.cardItem');
+            var bgClor = ['cBg1','cBg2','cBg3','cBg4'];
+            for(var i=0;i<cardItem.length;i++){
+                var j = i%4;
+                cardItem.eq(i).addClass(bgClor[j]);
+            };
+            function listFloat() {
+                var lintWidth = $('#cardItems').width();
+                if(u){
+                    var openwidth = lintWidth;
+                    var num = Math.min(Math.max(Math.ceil(openwidth / u), 1), l)//预计列数
+                        , i = m*num//计算所需要的空隙宽度
+                        , r = Math.max(Math.min(Math.floor((openwidth - i) / num), u), c);//预计每一项的宽度
+                    var e = {
+                        widthTure : r
+                    }
+                    o(e);
+                };
+            }
+            function o(e) {
+                var o = ".cardItems .cardItem{width:" + e.widthTure + "px!important}";
+                $('.cardStyles').html('<style>' + o + '</style>')
+            }
+            var m = 10,//每一项的margin-right;
+                u = 330,//最大宽度
+                l = 5,
+                c = 180;//最小宽度
+            listFloat();
+            $(window).resize(function () {
+                listFloat()
+            })
+        })

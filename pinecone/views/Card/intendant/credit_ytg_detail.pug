@@ -1,0 +1,56 @@
+extends ../../layout
+
+block head
+    link(rel='stylesheet', href='../../css/CardIndex.css')
+block content
+    include ../../include/card_header
+    .container
+        .content
+            include ../../include/cardSide
+            .mainInclude
+                .m-content.clearfix
+                    .page-title
+                        a.home(href='/card')
+                        span / 订单中心
+                        span / 授信申请订单中心 /
+                        a(href="javascript:history.go(-1)") 已通过订单管理 /
+                        span.last  已通过订单详情
+                    .main-container
+                        .pagecont
+                            .shz-detail
+                                .del-top
+                                    img(src='../../img/ytg@2x.png')
+                                    span 该笔订单审批已通过！
+                                .detail-content
+                                    .order-detail
+                                        .or-top 授信申请订单信息
+                                        ul
+                                            li
+                                                span 授信申请订单编号：
+                                                .info 26565448856
+                                            li
+                                                span 申请卡片名称：
+                                                .info 赫美轻奢卡片
+                                            li
+                                                span 提交时间：
+                                                .info 2017-04-28  15：24：25
+                                            li
+                                                span 状态：
+                                                .info 已通过
+                                            li
+                                                span 风控计划：
+                                                .info AA风控计划
+                                            li
+                                                span 额度：
+                                                .info 5000.00
+                                    .order-detail
+                                        .or-top 用户信息
+                                        ul
+                                            li
+                                                span 申请人：
+                                                .info 彭大石
+                                            li
+                                                span 手机号码：
+                                                .info 1328288282
+                                        .or-btm
+                                            a(href='') 查看用户详细信息

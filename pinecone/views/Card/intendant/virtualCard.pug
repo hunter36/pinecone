@@ -1,0 +1,202 @@
+extends ../../layout
+
+block head
+
+
+    link(rel='stylesheet', href='../../css/CardIndex.css')
+    script(src='../../js/tab.js')
+block content
+    mixin list(img, cardName, predict, condition, range, maintype, onlinestate, cardTypeId, imgS)
+        tr
+            //td
+            //    input(type='checkbox', name='se')
+            td
+                .pic
+                    .img
+                        img(src=imgS)
+            td #{cardName}
+            td #{predict}
+            td #{condition.substr(0,8)}
+            td #{range.substr(0,7)}
+            td #{maintype}
+            if onlinestate === '0'
+                td.zt
+                    span.dsj 待上架
+                td
+                    - var url = 'draftDetail?cardTypeId=' + cardTypeId
+                    a.editCard.detail(href=url) 查看详情
+                    //a.editCard 修改
+                    a.edit(data-edit=cardTypeId data-onlinestate=onlinestate) 上架
+            else if onlinestate === '1'
+                td.zt
+                    span.ysj.active 已上架
+                td
+                    - var url = 'draftDetail?cardTypeId=' + cardTypeId
+                    a.editCard.detail(href=url) 查看详情
+                    //a.editCard 修改
+                    a.edit(data-edit=cardTypeId data-onlinestate=onlinestate) 下架
+
+
+
+
+
+
+    include ../../include/card_header
+    .container
+        .content
+            include ../../include/cardSide
+            .mainInclude
+                .m-content.clearfix
+                    .page-title
+                        a.home(href='/card')
+                        span / 虚拟卡中心 /
+                        span.last  我的虚拟卡
+                    input(id="refreshed" value="no" style='display: none')
+                    .main-container
+                        .pagecont
+                            .cardTop
+                                .searchBox
+                                    .sea-line
+                                        span 卡片名称：
+                                        input.xnk(type='text', placeholder='请输入名称' value= typename)#typename
+                                    .sea-line
+                                        span 卡片类型：
+                                        select.lx#maintype
+                                            option(value='') 全部
+                                            for data , i in objmaintype
+                                                if data !== ''
+                                                    if i === maintype
+                                                        option(value=i selected='selected') #{data}
+                                                    else
+                                                        option(value=i) #{data}
+                                            //option(value='0') 通用信用支付卡
+                                            //option(value='1') 信用支付专项卡
+                                            //option(value='2') 分期支付专项卡
+                                    .sea-line
+                                        span 状态：
+                                        select.fws#onlinestate
+                                            option(value='') 全部
+                                            for data , i in objonlinestate
+                                                if data !== ''
+                                                    if i === onlinestate
+                                                        option(value=i selected='selected') #{data}
+                                                    else
+                                                        option(value=i) #{data}
+                                    .sea-line
+                                        a.sear 搜索
+                                        a.reset 重置
+                                //ul.tab-hitle
+                                //    li.addCard 新建卡片
+                                .tab-pane
+                                    .tab-item
+                                        .tab-center
+                                            table
+                                                thead
+                                                    tr
+                                                        //th(width='70px')
+                                                        //    input#all(type='checkbox')
+                                                        th(width='140px') 卡片logo
+                                                        th(width='130px') 卡片名称
+                                                        th(width='130px') 预估额度
+                                                        th(width='140px') 申请条件
+                                                        th(width='130px') 应用范围
+                                                        th(width='130px') 卡片类型
+                                                        th(width='130px') 状态
+                                                        th(width='130px') 操作
+                                                tbody.xj
+                                                    for data in cardList.pageList
+                                                        - var img = ''
+                                                        - var cardName = data.typename
+                                                        - var predict = data.predict
+                                                        - var condition = data.condition
+                                                        - var range = data.range
+                                                        - var maintype = data.maintype
+                                                        - var onlinestate = data.onlinestate
+                                                        - var cardTypeId = data.cardTypeId
+                                                        - var imgS = imgurl + data.clog
+                                                        +list(img, cardName, predict, condition, range, maintype, onlinestate, cardTypeId, imgS)
+                                            .zxf_pagediv
+    script.
+
+
+        $(function(){
+            var e = document.getElementById("refreshed");
+            if (e.value === "no") {
+                e.value = "yes";
+            } else if (e.value === "yes"){
+                e.value = "no";
+                window.location.reload();
+            }
+
+            //全选效果
+            $('#all').on('click', function(){
+                $(".xj input[type='checkbox']").prop("checked", $("#all").prop("checked"));
+            });
+            $(".xj input[type='checkbox']").each(function () {
+                $(this).on('click', function(){
+                    var allCheckNum = $(".xj input[type='checkbox']").length;
+                    var checkedNum = $(".xj input[type='checkbox']:checked").length;
+                    if (allCheckNum == checkedNum) {
+                        $("#all").prop("checked", 'checked');//全被选中
+                    } else {
+                        $("#all").prop("checked", '');//部分选中
+                    }
+                })
+            });
+
+            $('.sear').on('click', function(){
+                var xnk = $('.xnk').val();
+                var fws = $('.fws').val();
+                var lx = $('.lx').val();
+            });
+
+            $('.reset').on('click', function(){
+                $('.searchBox input').val("");
+                $('.searchBox select').val("全部")
+            });
+
+            //选中项操作
+            $('.btn').on('click', function(){
+                if($("#all").prop("checked") == true){
+                }else{
+                    $(".xj input[type='checkbox']").each(function () {
+                        if ($(this).prop('checked') == true) {
+                        } else {
+                        }
+                    })
+                }
+            })
+            // 新建虚拟卡弹窗
+            $('.addCard').on('click', function(){
+                zeroModal.show({
+                    title:"新建虚拟卡",
+                    content:"<div class='xj-popup'><span class='zer-type'>虚拟卡名称：</span><input type='text'><div class='title'>请输入卡片名称</div></div><div class='xj-popup'><span class=\'zer-type\'>虚拟卡类型：</span><select class=\'zer-select\'><option>请选择</option><option>通用信用支付卡</option><option>信用支付专项卡</option><option>分期支付专项卡</option></select><div class='title'>请选择卡片类型</div></div>",
+                    ok:true,
+                    cancel:true,
+                    okFn: function(){
+                        alert('新建   成功');
+                    }
+                })
+            })
+        })
+        //上架
+        $('.edit').on('click', function () {
+            var upData = $(this).data('edit')
+            var onlinestate = -parseInt($(this).data('onlinestate')) + 1
+            $.post('/api/Api_CARD_MARKET_TYPE_A5_CardTypeOnline_Request', {Card_type_id : upData, Onlinestate : onlinestate}, function (res) {
+                if (res.status.resultcode === '0'){
+                    window.location.reload()
+                }
+            })
+        })
+        //功能开发中
+        $('.sear').on('click', function () {
+            window.location.href = '/card/cardc/virtualCard?typename=' + $('#typename').val() + '&onlinestate=' + $('#onlinestate').val() + '&maintype=' + $('#maintype').val()
+        })
+        $('.reset').on('click', function () {
+            window.location.href = '/card/cardc/virtualCard'
+        })
+        // $('.editCard').on('click', function () {
+        //     zeroModal.alert('功能开发中')
+        // })
+

@@ -1,0 +1,137 @@
+extends ../../layout
+block head
+    link(rel='stylesheet', href="../../css/store.css")
+    link(rel='stylesheet', href="../../css/storeIndex.css")
+block content
+    include ../../include/header
+    .container
+            .content
+                include ../../lSide
+                .mainInclude
+                    .m-content.clearfix
+                        .page-title
+                            span 我的门店
+                        .main-container
+                                .mode-main
+                                    .mt
+                                        .extra
+                                            .extra-l
+                                                .ipt
+                                                    span 管理员姓名：
+                                                    input(type="text",value="")
+                                                .ipt
+                                                    span 操作员联系电话：
+                                                    input(type="text",value="")
+                                                .ipt
+                                                    span 状态：
+                                                    select
+                                                        option 全部
+                                                        option 通用信用支付卡
+                                                        option 信用支付专项卡
+                                                        option 分期支付专项卡
+                                            .extra-r
+                                                a.bpt.btn-danger(href="").kfz 搜索
+                                                a.bpt(href="").kfz 重置
+                                    .mc
+                                        .site-tabl-link.extra(style="margin-top:30px")
+                                            .extra-l !{buttons['202010100']} !{buttons['202010200']}
+                                            .extra-r !{buttons['202010300']}
+                                        .site-t-inner
+                                            .mtable
+                                                table.bord
+                                                    thead
+                                                        tr
+                                                            th
+                                                                input#all(type='checkbox')
+                                                            th 门店名称
+                                                            th 店长
+                                                            th 店长联系电话
+                                                            th 状态
+                                                            th(width="200px") 操作
+                                                    for data in Mdlist.pageList
+                                                        tbody.xj
+                                                                tr
+                                                                    td
+                                                                        input(type='checkbox',value=data.aid)
+                                                                    td  #{data.shopname}
+                                                                    td  #{data.mgrname}
+                                                                    td  #{data.tel}
+                                                                    if data.appstate =='0'
+                                                                        td 审核中
+                                                                    else if data.appstate=='1'
+                                                                        if data.shopstate == '0'
+                                                                            td
+                                                                                span.orange 待营业
+                                                                        else if data.shopstate == '1'
+                                                                            td
+                                                                                span.green 营业中
+                                                                    td
+                                                                        if data.appstate=='0'
+                                                                            a.see(href='/store/tenant/viewMdWait?mdid=' + data.aid+'&tyzt='+data.appstate) 查看详情
+                                                                        else if data.appstate=='1'
+                                                                            a.see(href='/store/tenant/viewMdOn?mdid=' + data.aid) 查看详情
+                                                                            if data.shopstate == '0'
+                                                                                a#name(href='javascript:;',onclick="business(this)").green 开始营业
+                                                                            else if data.shopstate == '1'
+                                                                                a#okll(href='javascript:;',onclick="pause(this)").red 暂停营业
+
+    script.
+        //全选效果
+        $('#all').on('click', function () {
+            $(".xj input[type='checkbox']").prop("checked", $("#all").prop("checked"));
+        });
+        $(".xj input[type='checkbox']").each(function () {
+            $(this).on('click', function () {
+                var allCheckNum = $(".xj input[type='checkbox']").length;
+                var checkedNum = $(".xj input[type='checkbox']:checked").length;
+                if (allCheckNum == checkedNum) {
+                    $("#all").prop("checked", 'checked');//全被选中
+                } else {
+                    $("#all").prop("checked", '');//部分选中
+                }
+            })
+        });
+        function business(obj) {
+            var thisobj = $(obj);
+            var val = thisobj.closest('tr').find('input').val();
+            zeroModal.confirm({
+                content:'确认门店开始营业?',
+                okFn:function () {
+                    $.post('/api/Api_MERCHANT_SHOP_A5_enableShopState_Request', {Aid: val}, function (resData) {
+                        if (resData.status.resultcode == '0') {
+                            zeroModal.alert({
+                                content:'门店已经开始营业了',
+                                okFn:function () {
+                                    window.location.reload();
+                                }
+                            });
+                        };
+                    });
+                }
+            })
+        };
+        function pause(obj) {
+            var thisobj = $(obj);
+            var val = thisobj.closest('tr').find('input').val();
+            zeroModal.confirm({
+                content: '确认门店暂停营业?',
+                okFn: function () {
+                    $.post('/api/Api_MERCHANT_SHOP_A5_disableShopState_Request', {Aid: val}, function (resData) {
+                        if (resData.status.resultcode == '0') {
+                            zeroModal.alert({
+                                content: '门店已经暂停营业了',
+                                okFn: function () {
+                                    window.location.reload();
+                                }
+                            });
+                        }
+                        ;
+                    });
+                }
+            })
+        }
+
+
+
+
+

@@ -1,0 +1,192 @@
+extends ../../layout
+
+block head
+    link(rel='stylesheet', href='../../css/CardIndex.css')
+    script(src='../../js/tab.js')
+block content
+    include ../../include/card_header
+    .container
+        .content
+            include ../../include/cardSide
+            .mainInclude
+                .m-content.clearfix
+                    .page-title
+                        a.home(href='/card')
+                        span / 合作中心 /
+                        span.last  卡片合作邀请列表
+                    input(id="refreshed" value="no" style='display: none')
+                    .main-container
+                        .pagecont
+                            .invite-coop.tab-confirm
+                                .invite-top
+                                    ul.tab-hitle
+                                        li 商户发起的合作邀约
+                                        li 我发起的合作邀约
+                                .tab-panel
+                                    .invite-con.tab-item
+                                        .i-c-top
+                                            .t-line
+                                                span 邀约编号
+                                                input(type='text', placeholder='请输入编号')
+                                            .t-line
+                                                span 商户名称
+                                                input(type='text', placeholder='请输入名称')
+                                            .t-line
+                                                span.sea 搜索
+                                                span 重置
+                                        .i-c-con
+                                            .operation
+                                                span.accept 接受邀请
+                                                span.refuse 拒绝邀请
+                                            table
+                                                thead
+                                                    tr
+                                                        th
+                                                            input(type='radio')
+                                                        th 编号
+                                                        th 商户名称
+                                                        th 货款结算周期
+                                                        th 佣金规则
+                                                        th 关联合作门店/电商集
+                                                        th 卡片名称
+                                                        th 商户联系方式
+                                                        th 邀约时间
+                                                        th 操作
+                                                tbody.merList
+                                                    for data , i in merchantList.pageList
+                                                        tr
+                                                            td
+                                                                input(type='radio', name='checkday',id=data.sid)
+                                                            td #{data.contid}
+                                                            td #{data.merchant.accountname}
+                                                            td #{data.settleperiod}
+                                                            td #{data.changerrate}
+                                                            td 暂无数据
+                                                            td #{data.card_merchant.companyname}
+                                                            td #{data.merchant.phonenumber}
+                                                            td #{data.applicationtime}
+                                                            td
+                                                                a.inv-detail 查看详情
+
+                                    .invite-con.tab-item
+                                        .i-c-top
+                                            .t-line
+                                                span 邀约编号
+                                                input(type='text', placeholder='请输入编号')
+                                            .t-line
+                                                span 商户名称
+                                                input(type='text', placeholder='请输入名称')
+                                            .t-line
+                                                span.sea 搜索
+                                                span 重置
+                                        .i-c-con
+                                            table
+                                                thead
+                                                    tr
+                                                        th
+                                                            input(type='radio')
+                                                        th 编号
+                                                        th 商户名称
+                                                        th 货款结算周期
+                                                        th 佣金规则
+                                                        th 关联合作门店/电商集
+                                                        th 卡片名称
+                                                        th 商户联系方式
+                                                        th 邀约时间
+                                                        th 操作
+                                                tbody.mineList
+                                                    for data, i in myInvite.pageList
+                                                        tr
+                                                            td
+                                                                input(type='radio', name='checkday',id=data.sid)
+                                                            td #{data.contid}
+                                                            td #{data.merchant.accountname}
+                                                            td #{data.settleperiod}
+                                                            td #{data.changerrate}
+                                                            td 暂无数据
+                                                            td #{data.card_merchant.companyname}
+                                                            td #{data.merchant.phonenumber}
+                                                            td #{data.applicationtime}
+                                                            td
+                                                                a.inv-detail 查看详情
+
+    script.
+        $(function () {
+            var e = document.getElementById("refreshed");
+            if (e.value === "no") {
+                e.value = "yes";
+            } else if (e.value === "yes") {
+                e.value = "no";
+                window.location.reload();
+            }
+        })
+        //  接受邀请弹窗
+        $('.accept').on('click', function(){
+            var sid = $('.merList input[name=checkday]:checked').attr('id');
+            if(sid){
+                zeroModal.show({
+                    url: 'invite_accept?sid=' + sid,
+                    title: '接受邀请',
+                    width: '410px',
+                    height: '247px'
+                })
+            }else{
+                zeroModal.alert('请选择列表内容')
+            }
+
+        })
+        //   拒绝邀请弹窗
+        $('.refuse').on('click', function () {
+            var sid = $('.merList input[name=checkday]:checked').attr('id');
+            if(sid){
+                $('.refuse').on('click', function () {
+                    zeroModal.show({
+                        url: 'invite_refuse?sid=' + sid,
+                        title: '拒绝邀请',
+                        width: '410px',
+                        height: '247px'
+                    })
+                });
+            }else{
+                zeroModal.alert('请选择列表内容')
+            }
+
+        })
+
+        //   商户合作邀约详情
+        $('.merList .inv-detail').on('click', function () {
+            var sid = $(this).closest('tr').find('input').attr('id');
+            zeroModal.show({
+                url: 'invite_detail?sid=' + sid,
+                title: '合作邀约',
+                width: '692px',
+                height: '540px'
+            })
+        })
+
+        //  卡商合作邀约详情
+        $('.mineList .inv-detail').on('click', function () {
+            var sid = $(this).closest('tr').find('input').attr('id');
+            zeroModal.show({
+                url: 'invite_m_detail?sid=' + sid,
+                title: '合作邀约',
+                width: '692px',
+                height: '540px'
+            })
+        })
+        $('.sear').on('click', function () {
+            zeroModal.alert('功能开发中')
+            // window.location.href = '/card/cooperation/invite_cooperation?shopname=' + $('#contid').val() + '&mname=' + $('#mname').val() + '&shopname=' + $('#shopname').val()
+        })
+        $('.reset').on('click', function () {
+            zeroModal.alert('功能开发中')
+            // window.location.href = '/card/cooperation/invite_cooperation'
+        })
+
+
+
+
+
+
+
+

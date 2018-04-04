@@ -1,0 +1,117 @@
+extends ../layout
+
+block head
+    link(rel='stylesheet', href='../../css/sign_in.css')
+block content
+    .loginIndex
+        .logincont
+            .loginrelative
+                .loginIn
+                    .loginIcon
+                        img(src='../../img/web-LOGO.png')
+                    .loginSiteName
+                        .engT USER MANAGEMENT BACKGROUND
+                        .cnT 卡商管理后台
+                    .loginForm
+                        .formInfo
+                            .lTitle
+                                span 卡商登录
+                            .lItem
+                                .inputBox
+                                    i.iIcon.user
+                                    input#phone(type='text',placeholder="请输入手机号登录",t-data="手机号",autocomplete="off")
+                                    .tips
+                            .lItem
+                                .inputBox
+                                    i.iIcon.password
+                                    input#password(type='password',placeholder="请输入密码",t-data="密码",autocomplete="new-password")
+                                    .tips
+                            .loginTips
+                            .loginButton.cursor#login 登录
+                            .loginThLink.clearfix
+                                .f-left 还没有账号？
+                                    a(href="/card/sign_up") 注册
+                                .f-right
+                                    a(href="") 忘记密码
+            .loginFtt Copyright 2003-2017, 版权所有:浙江捷富信息科技有限公司 浙ICP备14021018号
+
+    style.
+        .loginIndex .loginIn {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: url("../img/signupCard.png") no-repeat;
+            background-size: 60% 100%;
+            padding: 42px 560px 42px 40px;
+            _min-height: 600px;
+            behavior: url(../js/ie-css3.htc);
+        }
+    script.
+        function windowResize() {
+            var h = document.documentElement.clientHeight;
+            var w = document.documentElement.clientWidth;
+            $('body').addClass('loginAddCard').css({
+                'min-width': '1000px',
+                'min-height': '700px',
+                'height': h,
+                'width': w
+            })
+        };
+        $(document).ready(function () {
+            windowResize();
+        });
+        $(window).resize(function () {
+            windowResize();
+        });
+        $('.lItem input').focus(function () {
+            $(this).closest('.lItem').addClass('blur');
+        });
+        $('.lItem input').blur(function () {
+            $(this).closest('.lItem').removeClass('blur');
+            var p = $(this).next().get(0);
+            var a = $(this).attr('t-data');
+            var b = $(this).val();
+            if(b===''){
+                $(p).text(a+'不能为空').show();
+                $(this).closest('.lItem').addClass('error');
+            }else{
+                $(p).text('').hide();
+                $(this).closest('.lItem').removeClass('error');
+            }
+        });
+        $('.lItem input').bind('input propertychange', function () {
+            $($(this).next().get(0)).hide().html();
+            $(this).closest('.lItem').removeClass('error');
+            $('.loginTips').removeClass('visiable')
+        });
+        $('#login').on('click',function () {
+            var hdw = $('.tips:visible').length;
+            if(hdw){
+                zeroModal.alert('请输入所有必填项')
+                return false
+            }else{
+                var phoneNum = $('#phone').val();
+                var password = $('#password').val();
+                var postData = {
+                    Regphonenumber: phoneNum,
+                    Password: password,
+                }
+                $.post('/api/Api_ACCOUNT_A5_login_cardmerchant_Request', postData, function (res) {
+                    console.log(res.status.resultcode)
+                    if (res.status.resultcode === '0') {
+                        if(res.pageList[0].state=='1'){
+                            window.location.href = '/card'
+                        }else{
+                            zeroModal.error('此账户还未通过审核')
+                        }
+                    } else {
+                        $('.loginTips').html('用户名或密码错误').addClass('visiable');
+                        zeroModal.error('登录异常,请稍候再试')
+                    }
+                })
+            }
+        })
+
+
+
+

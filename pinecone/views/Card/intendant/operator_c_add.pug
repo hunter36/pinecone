@@ -1,0 +1,257 @@
+extends ../../layout
+
+block head
+    link(rel='stylesheet', href='../../css/CardIndex.css')
+
+block content
+    .operator_c_add
+        ul#oca
+            li
+                .top
+                    i *
+                    span 姓名：
+                    span.notice#nametip
+                input(type='text', placeholder='请输入姓名')#pupupName
+            li
+                .top
+                    i *
+                    span 身份证号码：
+                    span.notice#idnumbertip
+                input(type='text', placeholder='请输入身份证号码' oninput="OnIdnumber(event)" onpropertychange="OnIdnumberIE(event)")#idnumber
+            li
+                .top
+                    i *
+                    span 选择职位：
+                    span.notice#ptypetip
+                select#pupupptype
+                    for data in addList.pageList
+                        - var sid = data.sid
+                        option(value=sid) #{data.rname}
+            li
+                .top
+                    i *
+                    span 手机号码：
+                    span.notice#phonetip
+                input(type='text', placeholder='请输入手机号码' oninput="OnPhone(event)" onpropertychange="OnPhoneIE(event)")#pupupRegphonenumber
+            li
+                .top
+                    i *
+                    span 密码：
+                    span.notice#passwordtip
+                input(type='password', placeholder='请输入密码,首位为大写字母的8-18位数字、字母组合' oninput="OnPW(event)" onpropertychange="OnPWIE(event)")#password
+            li
+                .top
+                    i *
+                    span 确认密码：
+                    span.notice#confirmPasswordtip
+                input(type='password', placeholder='请再次输入密码,首位为大写字母的8-18位数字、字母组合' oninput="OnCPW(event)" onpropertychange="OnCPWIE(event)")#confirmPassword
+        .btm
+            span#confirmAdd 添加
+
+    style.
+        .zeromodal-header {
+            text-align: center;
+            height: 59px;
+            line-height: 59px;
+            background: #E63F46;
+            color: #fff;
+        }
+
+        .zeromodal-close {
+            background: url("../../img/close.png") no-repeat;
+            background-size: 100% 100%;
+        }
+
+    script.
+        /*输入过程中验证*/
+        // Firefox, Google Chrome, Opera, Safari, Internet Explorer from version 9
+        function OnPhone(event) {
+            var phone = document.getElementById('pupupRegphonenumber').value
+            var reg = /^1[3|4|5|6|7|8|9][0-9]{9}$/;
+            var isok = reg.test(phone);
+            if (!isok) {
+                document.getElementById('phonetip').innerHTML = '请输入正确的手机号码'
+            } else {
+                document.getElementById('phonetip').innerHTML = ''
+            }
+        }
+        // Internet Explorer
+        function OnPhoneIE(event) {
+            var phone = document.getElementById('pupupRegphonenumber').value
+            var reg = /^1[3|4|5|6|7|8|9][0-9]{9}$/;
+            var isok = reg.test(phone);
+            if (!isok) {
+                document.getElementById('phonetip').innerHTML = '请输入正确的手机号码'
+            } else {
+                document.getElementById('phonetip').innerHTML = ''
+            }
+        }
+        // Firefox, Google Chrome, Opera, Safari, Internet Explorer from version 9
+        function OnIdnumber(event) {
+            var phone = document.getElementById('idnumber').value
+            var reg = /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
+            var isok = reg.test(phone);
+            if (!isok) {
+                document.getElementById('idnumbertip').innerHTML = '请输入正确的身份证号'
+            } else {
+                document.getElementById('idnumbertip').innerHTML = ''
+            }
+        }
+        // Internet Explorer
+        function OnIdnumberIE(event) {
+            var phone = document.getElementById('idnumber').value
+            var reg = /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
+            var isok = reg.test(phone);
+            if (!isok) {
+                document.getElementById('idnumbertip').innerHTML = '请输入正确的身份证号'
+            } else {
+                document.getElementById('idnumbertip').innerHTML = ''
+            }
+        }
+        // // Firefox, Google Chrome, Opera, Safari, Internet Explorer from version 9
+        // function OnIdnumber(event) {
+        //     var phone = document.getElementById('idnumber').value
+        //     var reg = /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
+        //     var isok = reg.test(phone);
+        //     if (!isok) {
+        //         document.getElementById('idnumbertip').innerHTML = '请输入正确的身份证号'
+        //     } else {
+        //         document.getElementById('idnumbertip').innerHTML = ''
+        //     }
+        // }
+        // // Internet Explorer
+        // function OnIdnumberIE(event) {
+        //     var phone = document.getElementById('idnumber').value
+        //     var reg = /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
+        //     var isok = reg.test(phone);
+        //     if (!isok) {
+        //         document.getElementById('idnumbertip').innerHTML = '请输入正确的身份证号'
+        //     } else {
+        //         document.getElementById('idnumbertip').innerHTML = ''
+        //     }
+        // }
+
+
+
+        // Firefox, Google Chrome, Opera, Safari, Internet Explorer from version 9
+        function OnPW(event) {
+            var passwordnum = document.getElementById('password').value
+            var reg = /^[A-Z][a-zA-Z0-9]{7,17}$/;
+            var isok = reg.test(passwordnum);
+            if (!isok) {
+                document.getElementById('passwordtip').innerHTML = '密码格式有误'
+                return false
+            } else {
+                document.getElementById('passwordtip').innerHTML = ''
+            }
+            var pw = document.getElementById('confirmPassword').value
+            if (pw !== '') {
+                if (pw !== passwordnum) {
+                    document.getElementById('passwordtip').innerHTML = '密码不一致，请重新输入'
+                    return false;
+                } else {
+                    document.getElementById('passwordtip').innerHTML = ''
+                    document.getElementById('confirmPasswordtip').innerHTML = ''
+                }
+            }
+        }
+        // Internet Explorer
+        function OnPWIE(event) {
+            var passwordnum = document.getElementById('password').value
+            var reg = /^[A-Z][a-zA-Z0-9]{7,17}$/;
+            var isok = reg.test(passwordnum);
+            if (!isok) {
+                document.getElementById('passwordtip').innerHTML = '密码格式有误'
+                return false
+            } else {
+                document.getElementById('passwordtip').innerHTML = ''
+            }
+            var pw = document.getElementById('confirmPassword').value
+            if (pw !== '') {
+                if (pw !== passwordnum) {
+                    document.getElementById('passwordtip').innerHTML = '密码不一致，请重新输入'
+                    return false;
+                } else {
+                    document.getElementById('passwordtip').innerHTML = ''
+                    document.getElementById('confirmPasswordtip').innerHTML = ''
+                }
+            }
+        }
+        // Firefox, Google Chrome, Opera, Safari, Internet Explorer from version 9
+        function OnCPW(event) {
+            var passwordnum = document.getElementById('password').value
+            var pw = document.getElementById('confirmPassword').value
+            if (pw !== passwordnum) {
+                document.getElementById('confirmPasswordtip').innerHTML = '密码不一致，请重新输入'
+            } else {
+                document.getElementById('confirmPasswordtip').innerHTML = ''
+                // document.getElementById('passwordtip').innerHTML = ''
+            }
+        }
+        // Internet Explorer
+        function OnCPWIE(event) {
+            var passwordnum = document.getElementById('password').value
+            var pw = document.getElementById('confirmPassword').value
+            if (pw !== passwordnum) {
+                document.getElementById('confirmPasswordtip').innerHTML = '密码不一致，请重新输入'
+            } else {
+                document.getElementById('confirmPasswordtip').innerHTML = ''
+                // document.getElementById('passwordtip').innerHTML = ''
+            }
+        }
+
+        $('#confirmAdd').on('click', function () {
+            var errornum = 0
+
+            // $('input').each(function () {
+            //     if ($(this).val() === '') {
+            //         console.log($(this).prop('placeholder'))
+            //         errornum++
+            //     }
+            // })
+            if ($('#pupupName').val() === '') {
+                errornum++
+            }
+            if ($('#idnumber').val() === '') {
+                errornum++
+            }
+            if ($('#pupupptype').val() === '') {
+                errornum++
+            }
+            if ($('#pupupRegphonenumber').val() === '') {
+                errornum++
+            }
+            if ($('#password').val() === '') {
+                errornum++
+            }
+            if (errornum !== 0) {
+                zeroModal.error('提交错误,必填选项为空')
+                return false
+            } else {
+                var errornumb = 0
+                $('.notice').each(function () {
+                    if ($(this).text() !== '') {
+                        errornumb++
+                    }
+                })
+                if (errornumb !== 0) {
+                    zeroModal.error('提交错误,请检查')
+                    return false
+                } else {
+                    $.post('/api/cworker', {
+                        name: $('#pupupName').val(),
+                        idnumber: $('#idnumber').val(),
+                        ptype: $('#pupupptype').val(),
+                        regphonenumber: $('#pupupRegphonenumber').val(),
+                        password: $('#password').val(),
+                        rname: $('#ptype option:selected').text()
+                    }, function (res) {
+                        if (res.status.resultcode === '0') {
+                            window.location.reload()
+                        } else {
+                            zeroModal.error('网络错误')
+                        }
+                    })
+                }
+            }
+        })

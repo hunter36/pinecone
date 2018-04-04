@@ -1,0 +1,56 @@
+extends ../../layout
+
+block head
+    link(rel='stylesheet', href='../../css/CardIndex.css')
+
+block content
+    .mer-succ
+        .mer-s-t
+            img(src='../../img/success.png')
+        h3 发起合作请求已提交成功！
+        p 合作结果会发送至您的手机，请注意查收，谢谢！
+        a.mer-h(href='') 确定
+
+
+    style.
+        .zeromodal-header {
+            text-align: center;
+            height: 59px;
+            background: #E63F46;
+            color: #fff;
+        }
+
+        .zeromodal-close {
+            background: url("../../img/close.png") no-repeat;
+            background-size: 100% 100%;
+        }
+        .mer-succ .mer-s-t{
+            padding: 20px 0;
+            text-align: center;
+        }
+        .mer-succ .mer-s-t img{
+            width: 64px;
+            height: 64px;
+        }
+        .mer-succ h3{
+            font-size: 18px;
+            color: #433C3C;
+            text-align: center;
+        }
+        .mer-succ p{
+            font-size: 15px;
+            color: #999;
+            text-align: center;
+        }
+        a.mer-h{
+            display: block;
+            margin:20px auto;
+            width: 86px;
+            height: 36px;
+            text-align: center;
+            line-height: 36px;
+            font-size: 14px;
+            color: #fff;
+            border: 1px solid #CED0DA;
+            background: #E63F46;
+        }

@@ -1,0 +1,86 @@
+extends ./layout
+
+block content
+    .container
+        .wrap
+            .content
+                include lSide
+                .mainInclude
+                    .message-head
+                        .message-center 消息中心
+                        hr.firsthr
+                        .unread 未读
+                        .readed 已读
+                        hr.secondhr
+                    .message-body
+                        .message-body-head
+                            h1 系统通知
+                            span 今日 16:23:23
+                        .message-body-body
+                            img(src="/")
+                            p dasp dasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadf
+                                |  dasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadf
+                                |  dasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadf
+                                |  dasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadf
+                                |  dasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadf
+                                |  dasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadf
+                                |  dasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadf
+                                |  dasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadf
+                                | dfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadfdasdfasdfasdfsadf
+                        hr
+
+
+
+
+
+    style.
+        .message-head{
+            margin-bottom: 70px;
+        }
+        .message-head .message-center{
+            margin-bottom: 20px;
+        }
+        .message-head .firsthr{
+            height: 6px;
+            border: 0;
+            background-color: #2196f3;
+            margin-bottom: 80px;
+        }
+        .message-head .unread {
+            display:inline-block;
+            padding: 15px 50px;
+            background-color: #2196f3;
+            color: white;
+        }
+        .message-head .readed {
+            display: inline-block;
+            padding: 15px 50px;
+            /*background-color: #3fc3ee;*/
+        }
+        .message-head .secondhr {
+            height: 3px;
+            border: 0;
+            background-color: #2196f3;
+            margin-bottom: 80px;
+        }
+
+        .message-body .message-body-head {
+            margin-bottom: 50px;
+        }
+        .message-body .message-body-head h1 {
+            display: inline-block;
+        }
+        .message-body .message-body-head span{
+            margin-left: 750px;
+        }
+        .message-body .message-body-body {
+            margin-bottom: 50px;
+        }
+
+        .message-body .message-body-body img {
+            display: block;
+        }
+
+        .message-body .message-body-body p {
+            margin-left: 300px;
+        }

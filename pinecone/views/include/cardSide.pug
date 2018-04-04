@@ -1,0 +1,55 @@
+.slideContent
+    .slideWraper
+        .subMenu
+            .slideTitle 功能导航
+            ul.menuitems#menuitems
+
+    script.
+        $(document).ready(function () {
+            getmenu(1);
+        })
+        function getmenu(type) {
+            $.post('/api/getmenu', {actmod: "3"}, function (data) {
+                var json = data;
+                if (json.length > 0) {
+                    BuildMenu(json);
+                }
+            });
+        }
+        function BuildMenu(pjson) {
+            $(pjson).each(function (pindex, pitem) {
+                 var li= $('<li class="fockItem" data-id="'+ pitem.currentMenu.actid +'"><div class="title">'+pitem.currentMenu.actname +'</div></li>');
+                var cjson = pitem.subMenu;
+                if(cjson){
+                    li=ChildrenBuildMenu(li,cjson);
+                }
+                $('#menuitems').append(li);
+             })
+
+        }
+        function ChildrenBuildMenu(li, cjson) {
+            var ul = $('<ul class="itemsub">');
+            $(cjson).each(function (index, item) {
+                var cli = $('<li>');
+                if(item.currentMenu.acturl){
+                    cli.append('<a href="'+ item.currentMenu.acturl +'">' + item.currentMenu.actname + '</a>');
+                }else{
+                    cli.append('<a href="javascript:;" class="toggleMenu">' + item.currentMenu.actname + '<b></b></a>');
+                }
+                if(item.subMenu){
+                    cli = ChildrenBuildMenu(cli, item.subMenu);
+                }
+                ul.append(cli);
+            })
+            li.append(ul);
+            return li;
+        }
+        $(document).on('click','.toggleMenu',function () {
+            var menu = $(this).next().get(0);
+            $(menu).slideToggle();
+            if($(this).hasClass('active')){
+                $(this).removeClass('active');
+            }else{
+                $(this).addClass('active');
+            }
+        })

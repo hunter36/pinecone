@@ -1,0 +1,142 @@
+extends ../../layout
+
+block head
+    link(rel='stylesheet', href='../../css/CardIndex.css')
+
+block content
+    .invite-detail.my-edit-apply
+        ul.inv-de
+            li
+                .invi-top
+                    span 商户名称：
+                .invi-con
+                    ul
+                        li XXX服务有限公司
+            li
+                .invi-top
+                    span 关联门店/电商：
+                    a.retract
+                        span 共15个门店
+                        img(src='../../img/down.png')
+                .invi-con
+                    ul.m-open
+                        li XXX服务有限公司
+                        li XXX服务有限公司
+                        li XXX服务有限公司
+                        li XXX服务有限公司
+            li
+                .invi-top
+                    span 关联卡片：
+                    a.retract
+                        span 共15张卡片
+                        img(src='../../img/down.png')
+                .invi-con(style="background:#fff;border:0;")
+                    ul.in-img
+                        li
+                            .img
+                                img(src='../../img/ciri.jpg')
+                            span xx轻奢卡
+                        li
+                            .img
+                                img(src='../../img/ciri.jpg')
+                            span xx轻奢卡
+                        li
+                            .img
+                                img(src='../../img/ciri.jpg')
+                            span xx轻奢卡
+                        li
+                            .img
+                                img(src='../../img/ciri.jpg')
+                            span xx轻奢卡
+                        li
+                            .img
+                                img(src='../../img/ciri.jpg')
+                            span xx轻奢卡
+                        li
+                            .img
+                                img(src='../../img/ciri.jpg')
+                            span xx轻奢卡
+            li
+                .invi-top
+                    span 贷款结算方式：
+                .invi-con
+                    ul
+                        li XXX服务有限公司
+            li
+                .invi-top
+                    span 置货款结算周期：
+                .invi-con
+                    ul
+                        li XXX服务有限公司
+            li
+                .invi-top
+                    span 设置佣金规则：
+                .invi-con
+                    ul
+                        li XXX服务有限公司
+            li
+                .invi-top
+                    span 输入返点比例：
+                .invi-con
+                    ul
+                        li XXX服务有限公司
+            li
+                .invi-top
+                    span 商户联系方式：
+                .invi-con
+                    ul
+                        li XXX服务有限公司
+            li
+                .invi-top
+                    span 邀约时间：
+                .invi-con
+                    ul
+                        li XXX服务有限公司
+    .in-btm
+        span.ty 同意
+        span.bty 不同意
+
+
+
+
+    style.
+        .zeromodal-header {
+            text-align: center;
+            height: 59px;
+            line-height: 59px;
+            background: #E63F46;
+            color: #fff;
+        }
+
+        .zeromodal-close {
+            background: url("../../img/close.png") no-repeat;
+            background-size:100% 100%;
+        }
+    script.
+        // 展开收起效果
+        $('.retract').on('click', function(){
+            if($('.retract img').hasClass('active')){
+                $(this).find('img').removeClass('active');
+                $(this).closest('li').find('.invi-con ul').removeClass('active');
+            }else{
+                $(this).find('img').addClass('active');
+                $(this).closest('li').find('.invi-con ul').addClass('active');
+            }
+        });
+
+        $('.ty').on('click', function () {
+            zeroModal.show({
+                title: '暂停合作提示',
+                width: '410px',
+                height: '247px',
+                content: "<p class=\'zt-title\'>同意该合作参数修改申请？</p><div class=\'zt-con\'><span class=\'zt-c-f\'>确定</span><span class=\'zt-c-s\'>取消</span></div>"
+            })
+        })
+        $('.bty').on('click', function () {
+            zeroModal.show({
+                title: '恢复合作提示',
+                width: '410px',
+                height: '247px',
+                content: "<p class=\'zt-title\'>不同意该合作参数修改申请？</p><div class=\'zt-con\'><span class=\'zt-c-f\'>确定</span><span class=\'zt-c-s\'>取消</span></div>"
+            })
+        })

@@ -1,0 +1,167 @@
+extends ../../layout
+
+block head
+    link(rel='stylesheet', href="/css/store.css")
+    style.
+        .addPopup ul li .notice .n-line {
+            color: #df0000;
+            font-size: 12px;
+            display: none;
+        }
+block content
+    .addPopup.overflow
+        ul.add
+            li
+                span
+                    i *
+                    b 姓名
+                    |:
+                input.checkmock(type='text',id="name" placeholder='请输入姓名')
+                .notice
+                    .n-line
+            li.add
+                span
+                    i *
+                    b 身份证号码
+                    |:
+                input.checkmock(type='text',id="sfz" placeholder='请输入身份证号码')
+                .notice
+                    .n-line
+            li.add
+                span
+                    i *
+                    b 选择职位
+                    |:
+                select#zw
+                    for data in qxlixt.pageList
+                        option(value=data.sid) #{data.rname}
+                .notice
+                    .n-line
+            li.add
+                span.title
+                    i *
+                    b 手机号码
+                    |:
+                input.checkmock(type='text' id="phone" placeholder='请输入手机号码')
+                .notice
+                    .n-line
+            li.add
+                span
+                    i *
+                    | 设置
+                    b 登录密码
+                    |:
+                input.checkmock.password(type='password' placeholder='首位为大写字母的8-18位数字、字母组合')
+                .notice
+                    .n-line
+            li.add
+                span
+                    i *
+                    b 确认密码
+                    |:
+                input.checkmock.cpassword(type='password' placeholder='请再次输入密码')
+                .notice
+                    .n-line
+
+        script.
+            $('.addPopup input').focus(function () {
+                $(this).next().find('.n-line').hide()
+            })
+            $('input.checkmock').blur(function () {
+                if ($(this).val() == '') {
+                    var name = $(this).parent('li').find('span>b').text();
+                    $(this).next().find('.n-line').show().html(name + '不能为空');
+                }
+            })
+            $('#phone').blur(function () {
+                var phone = $('#phone').val();
+                var reg = /^1[3|4|5|6|7|8|9][0-9]{9}$/;
+                var isok = reg.test(phone);
+                if (phone == '') {
+                    $('#phone').next().find('.n-line').show().html('手机号码不能为空');
+                } else if (!isok) {
+                    $('#phone').next().find('.n-line').show().html('请输入正确的手机号码');
+                }else {
+                    $.post('/api/Api_ACCOUNT_A5_check_RegPhoneNumber_Request', {
+                        Regphonenumber: phone,
+                        Accounttype: '5'
+                    }, function (resData) {
+                        if (resData.pageList[0].isexists == '1') {
+                            $('#phone').next().find('.n-line').show().html('该手机号已被注册');
+                            return;
+                        } else {
+                            $.post('/api/Api_ACCOUNT_A5_check_RegPhoneNumber_Request', {
+                                Regphonenumber: phone,
+                                Accounttype: '6'
+                            }, function (resData) {
+                                if (resData.pageList[0].isexists == '1') {
+                                    $('#phone').next().find('.n-line').show().html('该手机号已被注册');
+                                } else {
+                                    $('#phone').next().find('.n-line').hide().html('');
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+            $('input.password').blur(function () {
+                var passwordnum = $('input.password').val();
+                var reg = /^[A-Z][a-zA-Z0-9]{7,17}$/;
+                var isok = reg.test(passwordnum);
+                if (passwordnum==='') {
+                    $('input.password').next().find('.n-line').show().html('密码不能为空');
+                } else if (!isok) {
+                    $('input.password').next().find('.n-line').show().html('密码需要首位为大写字母的8-18位数字、字母组合');
+                }
+            })
+            $('input.cpassword').blur(function () {
+                var passwordnum = $('input.password').val();
+                var cpasswordd = $('input.cpassword').val();
+                if (cpasswordd == '') {
+                    $('input.cpassword').next().find('.n-line').show().html('请再次输入密码确认');
+                } else if (cpasswordd !== passwordnum) {
+                    $('input.cpassword').next().find('.n-line').show().html('两次密码输入不一致');
+                }
+            })
+            function tijiao() {
+                var name = $('#name').val();
+                var phone = $('#phone').val();
+                var passwordnum = $('input.password').val();
+                var sfznumber = $('#sfz').val();
+                var zwId = $('#zw').val();
+                var zwname = $('#zw').text();
+                $(".addPopup input").trigger("blur");
+                var hdw = $('.n-line:visible').length;
+                if(hdw){
+                    zeroModal.error('请填写正确的信息后再次提交!');
+                    return false
+                }else {
+                    var Data = {
+                        Phonenumber: phone,
+                        Name: name,
+                        Loginpwd: passwordnum,
+                        Idcard: sfznumber,
+                        Wtype: '0',
+                        Maid:'#{shId}',
+                        Wtype:zwId,
+                        Rids:zwId,
+                        Rname:zwname,
+                        Loginaid:"#{loginaid}"
+                    }
+                    //console.log('#{shId}');
+                    $.post('/api/Api_MERCHANT_WORKER_A5_reg_MERCHANT_WORKER_Request', Data, function (res) {
+                        if (res.status.resultcode == '0') {
+                            zeroModal.alert({
+                                content:'添加成功',
+                                okFn: function () {
+                                    zeroModal.closeAll();
+                                    window.location.reload()
+                                }
+                            });
+                           //location.replace(document.referrer);
+                        } else {
+                            zeroModal.alert('提交失败，请再次提交');
+                        }
+                    })
+                }
+            }

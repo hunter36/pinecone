@@ -1,5 +1,4 @@
 <template>
-	<h1>This is Search module!</h1>
 	<div class="box">
 		<div class="card views">
 			<div class="titleBar">卡片</div>

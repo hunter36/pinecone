@@ -1,0 +1,29 @@
+/**
+ * Created by lqf on 17-12-21.
+ * 业务数据请求对象
+ */
+const base = require('../TransformData.js');
+
+var Api_CARDPRIVILEGE_A1_Request =function () {
+    this.api= "Api_CARDPRIVILEGE_A1_Request";
+	base.apply(this); //base 就是  TransformData
+	this.pname;//特权名称
+	this.pcondition;//特权条件
+	this.sid;//SID
+
+
+	this.prototype = base.prototype; //base 就是  TransformData       // Set prototype to TransformData's
+	this.prototype.constructor = this;   // Set constructor back to Api_ACCOUNT_A2_Request
+
+////特权名称
+this.setPname    = function (c){this.data.pname    = c ; }
+////特权条件
+this.setPcondition    = function (c){this.data.pcondition    = c ; }
+////SID
+this.setSid    = function (c){this.data.sid    = c ; }
+
+}
+
+
+//警告 : 不要写成 {Api_CARDPRIVILEGE_A1_Request}
+module.exports = Api_CARDPRIVILEGE_A1_Request;

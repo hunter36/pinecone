@@ -1,0 +1,107 @@
+extends ../../layout
+
+block head
+    link(rel='stylesheet', href='../../css/storeIndex.css')
+    link(rel='stylesheet', href='../../css/store.css')
+    script(src='../../../js/city/threeCity.js')
+    script(src='../../../js/city/cache_city.js')
+block content
+    include ../../include/header
+    .container
+            .content
+                include ../../lSide
+                .mainInclude
+                    .m-content.clearfix
+                        .page-title
+                            span  我的门店
+                            i.arrow &gt;
+                            span.last  查看门店详情
+                        .main-container
+                            .pagecont
+                                .mode-main
+                                    .tab-panel
+                                        .tab-item
+                                            .mdzttipscont
+                                                    if shzt=='0'
+                                                        .contmsg(style="width:600px")
+                                                            .msgicon
+                                                                img(src='../../img/sh-load.png')
+                                                            .msgtips
+                                                                .title.green 店铺正在审核中
+                                                                .yj(style="margin-top:20px") 我们的工作人员将会尽快审核，审核通过后将会短信通知到您，请注意查收！
+                                                    else if shzt == '2'
+                                                        .contmsg
+                                                            .msgicon
+                                                                img(src='../../img/sh-unpass.png')
+                                                            .msgtips
+                                                                .title.red 该门店未通过审核
+                                                                .yj #{Mddetail.pageList[0].auditopinion}
+                                                    else if shzt=='3'
+                                                        .contmsg
+                                                            .msgicon
+                                                                img(src='../../img/sh-jy.png')
+                                                            .msgtips
+                                                                .title.red 该门店已被禁停
+                                                                .yj #{Mddetail.pageList[0].auditopinion}
+                                            .publishbox
+                                                -var data = Mddetail.pageList[0]
+                                                    .item
+                                                        .title
+                                                            span.name 电商名称：
+                                                        .inner
+                                                            .unChg.word #{data.shopname}
+                                                    .item
+                                                        .title
+                                                            span.name 门店地址：
+                                                        .inner
+                                                            .unChg.word #{data.address}
+                                                    .item
+                                                        .title
+                                                            span.name 门店联系电话：
+                                                        .inner
+                                                            .unChg.word #{data.tel}
+                                                    .item
+                                                        .title
+                                                            span.name 营业执照编号：
+                                                        .inner
+                                                             .unChg.word #{data.licensenumber}
+                                                    .item
+                                                        .title
+                                                            span.name 营业执照照片或扫描件：
+                                                        .inner
+                                                            .unChg.imgbox
+                                                                img(src=imgUrl+data.licensephotos)
+                                                    .item
+                                                        .title
+                                                            span.name 门店封面图：
+                                                        .inner
+                                                            .unChg.imgbox
+                                                                img(src=imgUrl+data.shopphotos)
+                                                    .item
+                                                        .title
+                                                            span.name 品牌信息:
+                                                        .inner
+                                                            .unChg.word #{data.brand}
+                                                    .item
+                                                        .title
+                                                            span.name 所在区域:
+                                                        .inner
+                                                            .unChg.word #{data.areas}
+                                                    .item
+                                                        .title
+                                                            span.name 店长名称:
+                                                        .inner
+                                                            .unChg.word #{data.mgrname}
+                                                    .item
+                                                        .title
+                                                            span.name 门店标签:
+                                                        .inner
+                                                            .unChg.word #{shopstylename}
+                                                    .item
+                                                        .title
+                                                            span.name 门店简介:
+                                                        .inner
+                                                            .unChg.word #{data.shopcomm}
+
+
+

@@ -1,0 +1,135 @@
+extends ../../layout
+
+block head
+    link(rel='stylesheet', href='../../css/CardIndex.css')
+
+block content
+    .operator_c_add
+        ul
+            li
+                .top
+                    i *
+                    span 密码：
+                    span.notice#passwordtip
+                - var password = workerList.pageList[0].password
+                input(type='password', placeholder='请输入密码' value=password oninput="OnPW(event)" onpropertychange="OnPWIE(event)")#password
+            li
+                .top
+                    i *
+                    span 确认密码：
+                    span.notice#confirmPasswordtip
+                - var password = workerList.pageList[0].password
+                input(type='password', placeholder='请再次输入密码' value=password oninput="OnCPW(event)" onpropertychange="OnCPWIE(event)")#confirmPassword
+        .btm
+            span#confirmAdd 保存
+
+    style.
+        .zeromodal-header {
+            text-align: center;
+            height: 59px;
+            line-height: 59px;
+            background: #E63F46;
+            color: #fff;
+        }
+
+        .zeromodal-close {
+            background: url("../../img/close.png") no-repeat;
+            background-size: 100% 100%;
+        }
+
+    script.
+        // Firefox, Google Chrome, Opera, Safari, Internet Explorer from version 9
+        function OnPW(event) {
+            var passwordnum = document.getElementById('password').value
+            var reg = /^[A-Z][a-zA-Z0-9]{7,17}$/;
+            var isok = reg.test(passwordnum);
+            if (!isok) {
+                document.getElementById('passwordtip').innerHTML = '密码格式有误'
+                return false
+            } else {
+                document.getElementById('passwordtip').innerHTML = ''
+            }
+            var pw = document.getElementById('confirmPassword').value
+            if (pw !== '') {
+                if (pw !== passwordnum) {
+                    document.getElementById('passwordtip').innerHTML = '密码不一致，请重新输入'
+                    return false;
+                } else {
+                    document.getElementById('passwordtip').innerHTML = ''
+                    document.getElementById('confirmPasswordtip').innerHTML = ''
+                }
+            }
+        }
+        // Internet Explorer
+        function OnPWIE(event) {
+            var passwordnum = document.getElementById('password').value
+            var reg = /^[A-Z][a-zA-Z0-9]{7,17}$/;
+            var isok = reg.test(passwordnum);
+            if (!isok) {
+                document.getElementById('passwordtip').innerHTML = '密码格式有误'
+                return false
+            } else {
+                document.getElementById('passwordtip').innerHTML = ''
+            }
+            var pw = document.getElementById('confirmPassword').value
+            if (pw !== '') {
+                if (pw !== passwordnum) {
+                    document.getElementById('passwordtip').innerHTML = '密码不一致，请重新输入'
+                    return false;
+                } else {
+                    document.getElementById('passwordtip').innerHTML = ''
+                    document.getElementById('confirmPasswordtip').innerHTML = ''
+                }
+            }
+        }
+        // Firefox, Google Chrome, Opera, Safari, Internet Explorer from version 9
+        function OnCPW(event) {
+            var passwordnum = document.getElementById('password').value
+            var pw = document.getElementById('confirmPassword').value
+            if (pw !== passwordnum) {
+                document.getElementById('confirmPasswordtip').innerHTML = '密码不一致，请重新输入'
+            } else {
+                document.getElementById('confirmPasswordtip').innerHTML = ''
+                document.getElementById('passwordtip').innerHTML = ''
+            }
+        }
+        // Internet Explorer
+        function OnCPWIE(event) {
+            var passwordnum = document.getElementById('password').value
+            var pw = document.getElementById('confirmPassword').value
+            if (pw !== passwordnum) {
+                document.getElementById('confirmPasswordtip').innerHTML = '密码不一致，请重新输入'
+            } else {
+                document.getElementById('confirmPasswordtip').innerHTML = ''
+                document.getElementById('passwordtip').innerHTML = ''
+            }
+        }
+        $('#confirmAdd').on('click', function () {
+
+
+            if ($('#password').val() !== $('#confirmPassword').val()) {
+                zeroModal.error('密码不一致，请重新填写')
+                return false
+            }
+            if ($('#password').val() === '') {
+                zeroModal.error('密码不能为空，请重新填写')
+                return false
+            }
+            $.post('/card/card_operator/changecworker', {
+                name: '#{workerList.pageList[0].name}',
+                idnumber: '#{workerList.pageList[0].idnumber}',
+                ptype: '#{workerList.pageList[0].ptype}',
+                regphonenumber: '#{workerList.pageList[0].regphonenumber}',
+                rname: '#{workerList.pageList[0].rname}',
+                password: $('#password').val(),
+                sid: '#{workerList.pageList[0].sid}'
+            }, function (res) {
+                if (res.status.resultcode === '0') {
+
+                    window.location.reload()
+                } else {
+                    zeroModal.error('网络错误')
+                }
+            })
+        })
+

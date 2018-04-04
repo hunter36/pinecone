@@ -1,0 +1,60 @@
+extends ../../layout
+
+block head
+    link(rel='stylesheet', href='../css/storeIndex.css')
+block content
+    .modalItems(class="s-manhattan-index",style="padding: 10px 0 10px 15px")
+        .scroll-modalbox-info
+          .modal-scroll-page
+            .modalitem
+                .curname 你希望合作的虚拟卡：
+                .curcont
+                    .cardlist
+                        .card
+                            .card-icon
+                                img(src='../img/ciri.jpg')
+                            .card-name 和美卡卡卡卡卡
+                        .card
+                            .card-icon
+                                img(src='../img/ciri.jpg')
+                            .card-name 和美卡卡卡卡卡
+                        .card
+                            .card-icon
+                                img(src='../img/ciri.jpg')
+                            .card-name 和美卡卡卡卡卡
+                        .cardbutton
+                            i
+                            span 展开
+            .modalitem
+                .curname 合作的门店或电商：
+                .curcont
+                    select
+                        option 门店列表
+            .modalitem
+                .curname 结算方式：
+                .curcont
+                    select
+                        option 按单结算
+            .modalitem
+                .curname 设置货款结算周期：
+                .curcont
+                    select
+                        option T+0
+                        option T+1
+                        option T+2
+            .modalitem
+                .curname 设置佣金规则：
+                .curcont
+                    select
+                        option 商户向资金方返点
+                        option 资金方向商户返点
+            .modalitem
+                .curname 设置返点比率：
+                .curcont
+                    input(type="text")
+    script.
+        $(document).ready(function () {
+            var hdw = $('.mdcheck:checkbox:checked').attr('id');
+
+        })
+        $(".scroll-modalbox-info").panel({iWheelStep: 32});

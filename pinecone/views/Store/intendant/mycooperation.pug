@@ -1,0 +1,172 @@
+extends ../../layout
+
+block head
+    link(rel='stylesheet', href='../../css/store.css')
+block content
+    include ../../include/header
+    .container
+            .content
+                include ../../lSide
+                .mainInclude
+                    .m-content.clearfix
+                        .page-title 我的合作
+                        .main-container
+                            .mode-main
+                                .mt
+                                    .extra
+                                        .extra-l
+                                            .ipt
+                                                span 合同编号：
+                                                input(type="text",value="")
+                                            .ipt
+                                                span 虚拟卡服务商名称：
+                                                input(type="text",value="")
+                                            .ipt
+                                                span 状态：
+                                                select
+                                                    option 全部
+                                                    option 通用信用支付卡
+                                                    option 信用支付专项卡
+                                                    option 分期支付专项卡
+                                        .extra-r
+                                            a.bpt.btn-danger.kfz(href="javascript:;") 搜索
+                                            a.bpt.kfz(href="javascript:;") 重置
+                                .mc
+                                    .site-tabl-link.extra(style="margin-top:30px")
+                                        .extra-l
+                                            .tabtn.green.cohbtn(data-co="stop")  暂停合作
+                                            .tabtn.cohbtn(data-co="recover")   恢复合作
+                                            .tabtn.cohbtn(data-co="change")   申请变更合作方式
+                                            .tabtn.danger.cohbtn(data-co="remove") 删除合作
+                                    .site-t-inner
+                                        .coCenter
+                                            for data in hzList.pageList
+                                                .coItem
+                                                    .coTitle
+                                                        label(for="mdId"+data.sid)
+                                                            input.cocheck(type='checkbox',id="mdId"+data.sid,value=data.sid)
+                                                            span NO.#{data.sid}
+                                                        .name #{data.card_merchant.companyname}
+                                                    .coInfo
+                                                        .coIcode
+                                                            .fock 合作编号
+                                                            .fockinfo #{data.contid}
+                                                        .coIcode
+                                                            .fock 货款结算周期
+                                                            .fockinfo #{data.settleperiod}
+                                                        .coIcode
+                                                            .fock 佣金规则
+                                                            .fockinfo #{data.changerflag}：#{data.changerrate}
+                                                        .coIcode
+                                                            .fock 签约时间
+                                                            .fockinfo #{new Date(parseInt(data.processingtime)).toLocaleString().replace(/:\d{1,2}$/,' ')}
+                                                    .costate
+                                                        if data.appstatus == '1'
+                                                            img(src="../../icon/hz-on.png")
+                                                        else if data.appstatus == '2'
+                                                            img(src="../../icon/hz-zt.png")
+                                                    a.viewdetail.kfz(href="javascript:void(0)",title="查看详情")
+                                                        i
+                                                        | 查看详情
+            script.
+                function Change_Collaboration(){
+                    zeroModal.show({
+                        title: '申请变更合作方式',
+                        iframe: true,
+                        url: 'Change_Collaboration',
+                        width: '50%',
+                        height: '90%',
+                        cancel: true,
+                        opacity: 0.8,
+                        overlayClose: true,
+                        ok:true,
+                        okTitle:'提交申请',
+                        okFn:function(){
+                            alert("已提交申请")
+                        }
+                    });
+                }
+
+                //全选效果
+                $('#all').on('click', function () {
+                    $(".xj input[type='checkbox']").prop("checked", $("#all").prop("checked"));
+                });
+                $(".xj input[type='checkbox']").each(function () {
+                    $(this).on('click', function () {
+                        var allCheckNum = $(".xj input[type='checkbox']").length;
+                        var checkedNum = $(".xj input[type='checkbox']:checked").length;
+                        if (allCheckNum == checkedNum) {
+                            $("#all").prop("checked", 'checked');//全被选中
+                        } else {
+                            $("#all").prop("checked", '');//部分选中
+                        }
+                    })
+                });
+                $('.cohbtn').on('click',function () {
+                    var hdw = $('.cocheck:checked').val();
+                    var checkMock = $(this).attr('data-co');
+                    if(hdw){
+                        var redDate = {
+                            Sid: hdw
+                        };
+                        if(checkMock=='stop'){
+                            zeroModal.confirm({
+                                content: '确认暂停此合作?',
+                                okFn: function () {
+                                    $.post('/api/Api_CM_BINDAPPLY_A5_stopApply_Request', redDate, function (res) {
+                                        if (res.status.resultcode == '0') {
+                                            zeroModal.alert({
+                                                content: '合作已经暂停!',
+                                                okFn: function () {
+                                                    window.location.reload()
+                                                }
+                                            });
+                                        } else {
+                                            zeroModal.alert('暂停未生效!请再次提交')
+                                        }
+                                    })
+                                }
+                            })
+                        }else if(checkMock=='recover'){
+                            zeroModal.confirm({
+                                content: '确认恢复合作?',
+                                okFn: function () {
+                                    $.post('/api/Api_CM_BINDAPPLY_A5_passApply_Request', redDate, function (res) {
+                                        if (res.status.resultcode == '0') {
+                                            zeroModal.alert({
+                                                content: '合作已恢复!',
+                                                okFn: function () {
+                                                    window.location.reload()
+                                                }
+                                            });
+                                        } else {
+                                            zeroModal.alert('合作恢复失败!请再次提交')
+                                        }
+                                    })
+                                }
+                            })
+                        }else if(checkMock=='change'){
+                            alert('功能开发中')
+                        }else if(checkMock=='remove'){
+                            zeroModal.confirm({
+                                content: '确认删除合作?',
+                                okFn: function () {
+                                    $.post('/api/Api_CM_BINDAPPLY_A4_Request', redDate, function (res) {
+                                        if (res.status.resultcode == '0') {
+                                            zeroModal.alert({
+                                                content: '合作已删除!',
+                                                okFn: function () {
+                                                    window.location.reload()
+                                                }
+                                            });
+                                        } else {
+                                            zeroModal.alert('合作删除失败!请再次提交')
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    }else{
+                        zeroModal.error('请先选择卡片!!!!')
+                    }
+                })

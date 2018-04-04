@@ -1,0 +1,26 @@
+extends ../../layout
+
+block head
+    link(rel='stylesheet', href='../../css/CardIndex.css')
+    script(src='../../js/tab.js')
+block content
+    include ../../include/card_header
+    .container
+        .content
+            include ../../include/cardSide
+            .mainInclude
+                .m-content.clearfix
+                    .page-title
+                    .main-container
+                        .pagecont
+                            .security
+                                .secu-left
+                                    a(href='/card/security/cardBindPwd')
+                                        .pic
+                                            img(src='../../img/pwd.png')
+                                        span 修改登录密码
+                                .secu-left
+                                    a(href='/card/security/cardBindPh')
+                                        .pic
+                                            img(src='../../img/phone.png')
+                                        span 修改绑定手机

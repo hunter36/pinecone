@@ -1,0 +1,210 @@
+extends ../../layout
+
+block head
+    link(rel='stylesheet', href='../../css/CardIndex.css')
+block content
+    mixin list(name, ptype, idnumber, regphonenumber, state, statename, aid, sid)
+        tr
+            td
+                input(type='checkbox')
+            td #{name}
+            td #{ptype}
+            td #{idnumber}
+            td #{regphonenumber}
+            td
+                a.log 查看日志
+            td
+                if state === '1'
+                    span.zc #{statename}
+                else
+                    span.yjy #{statename}
+
+            td
+                a.detail(aid=aid sid=sid) 查看详情
+
+
+    include ../../include/card_header
+    .container
+        .content
+            include ../../include/cardSide
+            .mainInclude
+                .m-content.clearfix
+                    .page-title
+                        a.home(href='/card')
+                        span /
+                        span.last  操作员账户管理
+                    input(id="refreshed" value="no" style='display: none')
+                    .main-container
+                        .pagecont
+                            .my-coop.card_operator
+                                .invite-con
+                                    .i-c-top
+                                        .t-line
+                                            span 操作员职位
+                                            select(name='')#ptype
+                                                option(value='') 全部
+                                                for data in addList.pageList
+                                                    - var sid = data.sid
+                                                    if  parseInt(ptype) === parseInt(sid)
+                                                        option(value=sid selected='selected') #{data.rname}
+                                                    else
+                                                        option(value=sid) #{data.rname}
+                                        .t-line
+                                            span 操作员姓名
+                                            input(type='text', placeholder='请输入姓名' value=name)#name
+                                        .t-line
+                                            span 操作员联系电话
+                                            input(type='text', placeholder='请输入手机号' value=regphonenumber)#regphonenumber
+                                        //.t-line
+                                        //    span 状态
+                                        //    select
+
+                                        .t-line
+                                            span.sea 搜索
+                                            span.reset 重置
+                                    .m-c-con
+                                        .operation
+                                            span.add 添加
+                                            span.disable 禁用
+                                            span.recovery 恢复
+                                            span.del 删除
+                                        table
+                                            thead
+                                                tr
+                                                    th
+                                                        input#all(type='checkbox')
+                                                    th 操作员姓名
+                                                    th 职位
+                                                    th 身份证
+                                                    th 联系电话
+                                                    th 操作日志
+                                                    th 状态
+                                                    th 操作
+                                            tbody.xj
+                                                for data in workerList.pageList
+                                                    - var name = data.name
+                                                    - var ptype = data.rname
+                                                    - var idnumber = data.idnumber
+                                                    - var regphonenumber = data.regphonenumber
+                                                    - var state = data.account.state
+                                                    - var statename = data.statename
+                                                    - var aid = data.aid
+                                                    - var sid = data.sid
+                                                    +list(name, ptype, idnumber, regphonenumber, state, statename, aid, sid)
+
+    style.
+        .zeromodal-btn-primary{
+            background: #E63F46;
+        }
+    script.
+        $(function () {
+            var e = document.getElementById("refreshed");
+            if (e.value === "no") {
+                e.value = "yes";
+            } else if (e.value === "yes") {
+                e.value = "no";
+                window.location.reload();
+            }
+        });
+        //全选效果
+        $('#all').on('click', function () {
+            $(".xj input[type='checkbox']").prop("checked", $("#all").prop("checked"));
+        });
+        $(".xj input[type='checkbox']").each(function () {
+            $(this).on('click', function () {
+                var allCheckNum = $(".xj input[type='checkbox']").length;
+                var checkedNum = $(".xj input[type='checkbox']:checked").length;
+                if (allCheckNum == checkedNum) {
+                    $("#all").prop("checked", 'checked');//全被选中
+                } else {
+                    $("#all").prop("checked", '');//部分选中
+                }
+            })
+        });
+        //   添加
+        $('.add ').on('click', function(){
+            zeroModal.show({
+                url:'/card/card_operator/operator_c_add',
+                title:'添加新的管理员',
+                width:'430px',
+                height:'550px'
+            })
+        })
+        //   禁用
+        $('.disable').on('click', function(){
+            // zeroModal.show({
+            //     title:'禁用提示',
+            //     width:'410px',
+            //     height:'247px',
+            //     content:'<div style="font-size: 18px;color: #433C3C;text-align: center;padding-top: 30px;">是否禁用所选内容？</div>',
+            //     ok:true,
+            //     okTitle:'禁用',
+            //     cancel:true,
+            //     cancelTitle:'取消',
+            //     okFn:function(){
+            //         alert(1);
+            //     }
+            // })
+            zeroModal.alert('功能开发中')
+        })
+        //   恢复
+        $('.recovery').on('click', function () {
+            // zeroModal.show({
+            //     title: '恢复提示',
+            //     width: '410px',
+            //     height: '247px',
+            //     content: '<div style="font-size: 18px;color: #433C3C;text-align: center;padding-top: 30px;">是否恢复所选内容？</div>',
+            //     ok: true,
+            //     okTitle: '恢复',
+            //     cancel: true,
+            //     cancelTitle: '取消',
+            //     okFn: function () {
+            //         alert(1);
+            //     }
+            // })
+            zeroModal.alert('功能开发中')
+        })
+        //  删除
+        $('.del').on('click', function () {
+            // zeroModal.show({
+            //     title: '删除提示',
+            //     width: '410px',
+            //     height: '247px',
+            //     content: '<div style="font-size: 18px;color: #433C3C;text-align: center;padding-top: 30px;">是否删除所选内容？</div>',
+            //     ok: true,
+            //     okTitle: '删除',
+            //     cancel: true,
+            //     cancelTitle: '取消',
+            //     okFn: function () {
+            //         alert(1);
+            //     }
+            // })
+            zeroModal.alert('功能开发中')
+        })
+        //   查看详情
+        $('.detail').on('click', function(){
+            zeroModal.show({
+                url: 'operator_c_detail?aid=' + $(this).attr('aid') + '&sid=' + $(this).attr('sid'),
+                title:'操作员信息详情',
+                width: '430px',
+                height: '550px'
+            })
+        })
+        //  查看日志
+        $('.log').on('click', function () {
+            // zeroModal.show({
+            //     url: 'operator_log',
+            //     title: '操作日志',
+            //     width: '692px',
+            //     height: '550px'
+            // })
+            zeroModal.alert('功能开发中')
+        })
+        $('.sea').on('click', function () {
+            window.location.href = '/card/card_operator/operator_center?ptype=' + $('#ptype').val() + '&name=' + $('#name').val() + '&regphonenumber=' + $('#regphonenumber').val()
+
+        })
+        $('.reset').on('click', function () {
+            window.location.href = '/card/card_operator/operator_center'
+        })
+

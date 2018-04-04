@@ -1,0 +1,113 @@
+extends ../../layout
+
+block head
+    link(rel='stylesheet', href="/css/store.css")
+    link(rel='stylesheet', href='../css/storeIndex.css')
+    script(src='../js/tab.js')
+block content
+    include ../../include/header
+    .container
+            .content
+                include ../../lSide
+                .mainInclude
+                    .m-content.clearfix
+                        .page-title 虚拟卡合作邀请
+                        .main-container
+                            .mode-main
+                                .mt
+                                    ul.paneltit.clearfix
+                                        li.curr
+                                            a(href="") 虚拟卡发起的邀请
+                                        li
+                                            a(href="") 我发起的邀请
+                                    .extra
+                                        .extra-l
+                                            .ipt
+                                                span 虚拟卡名称：
+                                                input(type="text",value="")
+                                            .ipt
+                                                span 虚拟卡服务商名称：
+                                                input(type="text",value="")
+                                            .ipt
+                                                span 虚拟卡类型：
+                                                select
+                                                    option 全部
+                                                    option 通用信用支付卡
+                                                    option 信用支付专项卡
+                                                    option 分期支付专项卡
+                                        .extra-r
+                                            a.bpt.btn-danger(href="") 搜索
+                                            a.bpt(href="") 重置
+                                    .clicklink.mgt
+                                        a.clink(href="") 接受邀请
+                                        a.clink(href="") 拒绝邀请
+                                .mc
+                                    .site-t-inner
+                                        .mtable
+                                            table.bord
+                                                thead
+                                                    tr
+                                                        th(width='70px')
+                                                            input(type='checkbox')
+                                                        th(width='120px') 虚拟卡logo
+                                                        th(width='130px') 虚拟卡名称
+                                                        th(width='150px') 虚拟卡类型
+                                                        th(width='130px') 虚拟卡服务商
+                                                        th(width='130px') 贷款结算周期
+                                                        th(width='150px') 佣金规则
+                                                        th(width='130px') 虚拟卡服务商联系方式
+                                                        th(width='130px') 邀请时间
+                                                        th(width='130px') 操作
+                                                tbody
+                                                    tr
+                                                        td.c
+                                                            input(type='checkbox')
+                                                        td
+                                                            .pic
+                                                                .img
+                                                                    img(src='../img/ciri.jpg',width="100")
+                                                        td.c
+                                                            a(href="") 轻奢虚拟卡
+                                                        td.c
+                                                            span 信用支付专项虚拟卡
+                                                        td.c
+                                                            span 按单结算
+                                                        td.c
+                                                            span T+0
+                                                        td.c
+                                                            span 商户向资金方返点返点比例：3%
+                                                        td.c
+                                                            span 177876534256
+                                                        td.c
+                                                            span 2017-10-12
+                                                        td.c
+                                                            a.detail(href='storeDetail') 查看详情
+                                                tbody
+                                                    tr
+                                                        td.c
+                                                            input(type='checkbox')
+                                                        td
+                                                            .pic
+                                                                .img
+                                                                    img(src='../img/ciri.jpg',width="100")
+                                                        td.c
+                                                            a(href="") 轻奢虚拟卡
+                                                        td.c
+                                                            span 信用支付专项虚拟卡
+                                                        td.c
+                                                            span 按单结算
+                                                        td.c
+                                                            span T+0
+                                                        td.c
+                                                            span 商户向资金方返点返点比例：3%
+                                                        td.c
+                                                            span 177876534256
+                                                        td.c
+                                                            span 2017-10-12
+                                                        td.c
+                                                            a.detail(href='storeDetail') 查看详情
+
+
+
+
+

@@ -1,0 +1,47 @@
+extends ../layout
+block head
+    link(rel='stylesheet',href="/css/store.css")
+block content
+    include ../include/header
+    .container
+        .content
+            include ../lSide
+            .mainInclude
+                .m-content.clearfix
+                    .page-title 首页
+                    .main-container
+                        .pagecont
+                            .s-index-message.clearfix
+                                ul.clearfix
+                                    li
+                                        a(href="")
+                                            .infolink
+                                                .icont
+                                                    img(src="../img/message.png")
+                                                .name 新消息通知
+                                            b 10
+                                    li
+                                        a(href="")
+                                            .infolink
+                                                .icont
+                                                    img(src="../img/jiaoyi.png")
+                                                .name 新交易记录
+                                            b 10
+                                    li
+                                        a(href="")
+                                            .infolink
+                                                .icont
+                                                    img(src="../img/tuikuan.png")
+                                                .name 门店新退款记录
+                                            b 10
+                                    li
+                                        a(href="")
+                                            .infolink
+                                                .icont
+                                                    img(src="../img/hezuocanshu.png")
+                                                .name 合作参数变更申请
+                                            b 10
+
+
+
+

@@ -1,0 +1,83 @@
+extends ../../layout
+
+block head
+    link(rel='stylesheet', href='../../css/CardIndex.css')
+block content
+    include ../../include/card_header
+    .container
+        .content
+            include ../../include/cardSide
+            .mainInclude
+                .m-content.clearfix
+                    .page-title
+                        a.home(href='/card')
+                        span / 订单中心 /
+                        span  账单分期订单中心 /
+                        span.last  账单分期订单管理
+                    .main-container
+                        .pagecont
+                            .consum.staging_order
+                                .consum-top
+                                    .c-t-lin
+                                        ul
+                                            li
+                                                span 分期订单编号
+                                                input(type='text', placeholder='请输入编号')
+                                            li
+                                                span 用户姓名
+                                                input(type='text', placeholder='请输入名称')
+                                            li
+                                                span 用户手机号
+                                                input(type='text', placeholder='请输入手机号')
+                                    .c-t-lin
+                                        ul
+                                            li
+                                                span 完成时间区间
+                                                input(type='text', data-beatpicker="true" data-beatpicker-position="['*','*']" data-beatpicker-range="true" data-beatpicker-module="gotoDate")
+                                            li(style='padding-left:110px;')
+                                                span(style='width:100px;') 订单金额区间
+                                                input.num(type='number')
+                                                i(style='margin:0 10px;') -
+                                                input(type='number')
+                                            li(style='padding-left:50px;')
+                                                a.sear 搜索
+                                                a 重置
+
+
+                                .consum-con
+                                    ul
+                                        li 用户姓名
+                                        li 用户手机号
+                                        li 分期金额
+                                        li 分期总期数
+                                        li 原账单编号
+                                        li 状态
+                                        li 操作
+                                    table
+                                        caption
+                                            span 分期时间：2017-03-13  14:43
+                                            span.bh 订单编号：2016081514432586
+                                        tbody
+                                            tr
+                                                td 123
+                                                td 123
+                                                td 123
+                                                td 123
+                                                td 123
+                                                td 已完成
+                                                td
+                                                    a(href='staging_order_detail') 查看详情
+                                    table
+                                        caption
+                                            span 分期时间：2017-03-13  14:43
+                                            span.bh 订单编号：2016081514432586
+                                        tbody
+                                            tr
+                                                td 123
+                                                td 123
+                                                td 123
+                                                td 123
+                                                td 123
+                                                td 已完成
+                                                td
+                                                    a(href='staging_order_detail') 查看详情

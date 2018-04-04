@@ -1,0 +1,77 @@
+extends ../../layout
+block head
+    link(rel='stylesheet', href="/css/store.css")
+block content
+    include ../../include/header
+    .container
+            .content
+                include ../../lSide
+                .mainInclude
+                    .m-content.clearfix
+                        .page-title 已完成订单
+                        .main-container
+                            .pagecont
+                                .mode-main
+                                    .mt
+                                        .extra
+                                            .extra-l
+                                                .ipt
+                                                    span 订单编号：
+                                                    input(type="text",value="")
+                                                .ipt
+                                                    span 用户姓名：
+                                                    input(type="text",value="")
+                                                .ipt
+                                                    span 用户手机号：
+                                                    input(type="text",value="")
+                                                .ipt
+                                                    span 订单金额：
+                                                    input(type="text",value="")
+                                                .ipt
+                                                    span  下单时间：
+                                                    input.inp(type='text', data-beatpicker="true" data-beatpicker-position="['*','*']" data-beatpicker-range="true" data-beatpicker-module="gotoDate")
+                                            .extra-r
+                                                a.bpt.btn-danger(href="") 搜索
+                                                a.bpt(href="") 重置
+                                    .mc
+                                        .order-center
+                                            .order-table
+                                                table.order-vc
+                                                    colgroup
+                                                        col.user-name
+                                                        col.user-phone
+                                                        col.order-num
+                                                        col.order-shop
+                                                        col.card-name
+                                                        col.order-state
+                                                        col.handle
+                                                    thead
+                                                        tr
+                                                            th 用户姓名
+                                                            th 用户手机号
+                                                            th 订单金额
+                                                            th 下单门店
+                                                            th 所使用虚拟卡名称
+                                                            th 订单状态
+                                                            th 操作
+                                                    for data in orderWait.pageList
+                                                        tbody
+                                                            tr.sp-row
+                                                                td(colspan='7')
+                                                            tr.order-msg
+                                                                td.o-time(colspan='4') 下单时间：#{new Date(parseInt(data.ordertime)).toLocaleString().replace(/:\d{1,2}$/,' ')}
+                                                                td.o-number(colspan='3') 订单编号：#{data.sid}
+                                                            tr.order-dt
+                                                                td #{data.aname}
+                                                                td 暂无数据
+                                                                td #{data.creditcardamount}
+                                                                td #{data.shopname}
+                                                                td 暂无数据
+                                                                td #{data.orderstate}
+                                                                td
+                                                                    a.green(href='/store/orderCent/orderDetail?mdid='+data.sid) 查看详情
+
+
+
+
+

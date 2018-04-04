@@ -1,0 +1,182 @@
+extends ../../layout
+
+block head
+    link(rel='stylesheet', href='../../css/store.css')
+    link(rel='stylesheet', href='../../css/storeIndex.css')
+    script(src='../../js/tab.js')
+block content
+    include ../../include/header
+    .container
+            .content
+                include ../../lSide
+                .mainInclude
+                    .m-content.clearfix
+                        .page-title 待处理的合作邀约
+                        .main-container
+                            .mode-main
+                                .mt
+                                    .extra
+                                        .extra-l
+                                            .ipt
+                                                span 虚拟卡名称：
+                                                input(type="text",value="")
+                                            .ipt
+                                                span 虚拟卡类型：
+                                                input(type="text",value="")
+                                            .ipt
+                                                span 状态：
+                                                select
+                                                    option 全部
+                                                    option 通用信用支付卡
+                                                    option 信用支付专项卡
+                                                    option 分期支付专项卡
+                                        .extra-r
+                                            a.bpt.btn-danger(href="") 搜索
+                                            a.bpt(href="") 重置
+                                .mc.tab-confirm
+                                    .mctablink.tab-hitle
+                                        ul
+                                            li 虚拟卡服务商发起的合作邀约
+                                            li 我方发起的合作邀约
+                                    .tab-panel
+                                        .tab-item
+                                            .site-tabl-link.extra(style="margin-top:30px")
+                                                .extra-l
+                                                    .tabtn.green#accept  接受邀请
+                                                    .tabtn.danger#jjyq 拒绝邀请
+                                            .site-t-inner
+                                                .coCenter
+                                                    for data in hzList.pageList
+                                                        .coItem
+                                                            .coTitle
+                                                                label(for="mdId" + data.sid)
+                                                                    input.jsyq(type='checkbox',id="mdId" + data.sid,value=data.sid)
+                                                                    span NO.#{data.sid}
+                                                                .name #{data.card_merchant.companyname}
+                                                            .coInfo
+                                                                .coIcode
+                                                                    .fock 合作编号
+                                                                    .fockinfo #{data.contid}
+                                                                .coIcode
+                                                                    .fock 货款结算周期
+                                                                    .fockinfo #{data.settleperiod}
+                                                                .coIcode
+                                                                    .fock 佣金规则
+                                                                    .fockinfo #{data.changerflag}：#{data.changerrate}
+                                                                .coIcode
+                                                                    .fock 邀请发送时间
+                                                                    .fockinfo #{data.applicationtime}
+                                                            .costate
+                                                                if data.appstatus == '0'
+                                                                    img(src="../../icon/hz-sq.png")
+                                                                else if data.appstatus == '3'
+                                                                    img(src="../../icon/hz-jj.png")
+                                                            a.viewdetail.kfz(href="javascript:void(0)",title="查看详情")
+                                                                i
+                                                                | 查看详情
+                                        .tab-item
+                                            .site-t-inner
+                                                .coCenter
+                                                    for data in hzListSH.pageList
+                                                        .coItem
+                                                            .coTitle
+                                                                label(for="mdId" + data.sid)
+                                                                    input.jsyq(type='checkbox',id="mdId" + data.sid,value=data.sid)
+                                                                    span NO.#{data.sid}
+                                                                .name #{data.card_merchant.companyname}
+                                                            .coInfo
+                                                                .coIcode
+                                                                    .fock 合作编号
+                                                                    .fockinfo #{data.contid}
+                                                                .coIcode
+                                                                    .fock 货款结算周期
+                                                                    .fockinfo #{data.settleperiod}
+                                                                .coIcode
+                                                                    .fock 佣金规则
+                                                                    .fockinfo #{data.changerflag}：#{data.changerrate}
+                                                                .coIcode
+                                                                    .fock 邀请发送时间
+                                                                    .fockinfo #{new Date(parseInt(data.applicationtime)).toLocaleString().replace(/:\d{1,2}$/,' ')}
+                                                            .costate
+                                                                if data.appstatus == '0'
+                                                                    img(src="../../icon/hz-sq.png")
+                                                                else if data.appstatus == '3'
+                                                                    img(src="../../icon/hz-jj.png")
+                                                            a.viewdetail.kfz(href="javascript:void(0)",title="查看详情")
+                                                                i
+                                                                | 查看详情
+
+
+
+
+
+            script.
+                $('#accept').on('click',function () {
+                    var hdw = $('.jsyq:checked').val();
+                    if(hdw){
+                        var redDate = {
+                            Sid:hdw
+                        }
+                        zeroModal.confirm({
+                            content:'确认接受邀请?',
+                            okFn:function () {
+                                $.post('/api/Api_CM_BINDAPPLY_A5_passApply_Request', redDate, function (res) {
+                                    if (res.status.resultcode == '0') {
+                                        zeroModal.alert({
+                                            content: '已接受合作邀请!',
+                                            okFn: function () {
+                                                window.location.reload()
+                                            }
+                                        });
+                                    } else {
+                                        zeroModal.alert('合作未生效!请再次提交')
+                                    }
+                                })
+                            }
+                        })
+                    }else{
+                        zeroModal.alert('请先选择要合作的卡片')
+                    }
+                });
+                $('#jjyq').on('click', function () {
+                    var hdw = $('.jsyq:checked').val();
+                    if (hdw) {
+                        var redDate = {
+                            Sid: hdw
+                        }
+                        zeroModal.confirm({
+                            content: '确认拒绝邀请?',
+                            okFn: function () {
+                                $.post('/api/Api_CM_BINDAPPLY_A5_rejectApply_Request', redDate, function (res) {
+                                    if (res.status.resultcode == '0') {
+                                        zeroModal.alert({
+                                            content: '已拒绝合作邀请!',
+                                            okFn: function () {
+                                                window.location.reload()
+                                            }
+                                        })
+                                    } else {
+                                        zeroModal.alert('拒绝失败,请再次提交')
+                                    }
+                                })
+                            }
+                        })
+                    } else {
+                        zeroModal.alert('请先选择需要拒绝合作的卡片')
+                    }
+                })
+                //全选效果
+                $('#all').on('click', function () {
+                    $(".xj input[type='checkbox']").prop("checked", $("#all").prop("checked"));
+                });
+                $(".xj input[type='checkbox']").each(function () {
+                    $(this).on('click', function () {
+                        var allCheckNum = $(".xj input[type='checkbox']").length;
+                        var checkedNum = $(".xj input[type='checkbox']:checked").length;
+                        if (allCheckNum == checkedNum) {
+                            $("#all").prop("checked", 'checked');//全被选中
+                        } else {
+                            $("#all").prop("checked", '');//部分选中
+                        }
+                    })
+                });

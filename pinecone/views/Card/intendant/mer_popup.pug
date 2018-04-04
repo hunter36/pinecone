@@ -1,0 +1,190 @@
+extends ../../layout
+
+block head
+    link(rel='stylesheet', href='../../css/CardIndex.css')
+
+block content
+
+    mixin list(typename, val, imgS)
+        li
+            div
+                input(type='checkbox' cardid=val)
+
+                img(src=imgS)
+            span #{typename}
+
+    .mer-popup
+        //.m-p-top
+        //    span 您希望合作的金融机构及虚拟卡
+        //.m-p-con
+        //    .m-detail
+        //        .m-de-line
+        //            .m-title 商户姓名：
+        //            .m-con
+        //                ul
+        //                    li XXX服务有限公司
+        //        .m-de-line(style='margin-bottom:0;')
+        //            .m-title
+        //                span 关联门店/电商：
+        //                a.retract
+        //                    span 共15个门店
+        //                    img(src='../../img/down.png')
+        //            .m-con.m-open
+        //                ul
+        //                    li XXX服务有限公司
+        //                    li XXX服务有限公司
+        //                    li XXX服务有限公司
+        //                    li XXX服务有限公司
+        .m-p-top(style='padding-top:10px;')
+            span 配置参数
+        .m-p-con.m-b-con
+            .m-detail
+                .m-de-line
+                    .m-title 关联卡片：
+                    .m-con
+                        ul#card
+                            for data in cardList.pageList
+                                - var typename = data.typename
+                                - var cardid= data.cardTypeId
+                                - var imgS = imgurl + data.clog
+                                +list(typename, cardid, imgS)
+                .m-de-line
+                    .m-title 结算方式：
+                    .m-con
+                        select#settletype
+                            for data in settletype
+                                - var code = data.name
+                                - var pcode = data.pcode
+                                    option(value=pcode) #{data.pname}
+
+                .m-de-line
+                    .m-title
+                        span 设置贷款结算周期：
+                        a 请选择结算周期
+                    .m-con
+                        select#settleperiod
+                            for data in settleperiod
+                                - var code = data.name
+                                - var pcode = data.pcode
+                                    option(value=pcode) #{data.pname}
+                .m-de-line
+                    .m-title
+                        span 设置佣金规则：
+                        a 请选择佣金规则
+                    .m-con
+                        select#changerflag
+                            for data in changerflag
+                                - var code = data.name
+                                - var pcode = data.pcode
+                                    option(value=pcode) #{data.pname}
+                .m-de-line
+                    .m-title
+                        span 设置返点比率：
+                        a 请设置返点比例
+                    .m-con
+                        input.last(type='text' value='')#changerrate
+        .mer-btm
+            a.mer-sub#save 申请提交
+
+
+
+    style.
+        .zeromodal-header {
+            text-align: center;
+            height: 59px;
+            line-height: 59px;
+            background: #E63F46;
+            color: #fff;
+        }
+
+        .zeromodal-close {
+            background: url("../../img/close.png") no-repeat;
+            background-size:100% 100%;
+        }
+    script.
+        // 展开收起效果
+        $('.retract').on('click', function(){
+            if($('.retract img').hasClass('active')){
+                $('.retract img').removeClass('active');
+                $('.m-open').removeClass('active');
+            }else{
+                $('.retract img').addClass('active');
+                $('.m-open').addClass('active');
+            }
+        })
+
+        $('.mer-sub').on('click', function(){
+
+        })
+    script.
+        $('#save').on('click', function () {
+            var errornum = 0
+            if($('#settletype').val() === '') {
+                errornum++
+            }
+            if ($('#settleperiod').val() === '') {
+                errornum++
+            }
+            if ($('#changerflag').val() === '') {
+                errornum++
+            }
+            if ($('#changerrate').val() === '') {
+                errornum++
+            }
+            if ($('input:checked').attr('cardid') === undefined) {
+                errornum++
+            }
+            if(errornum !== 0 ) {
+                zeroModal.error('提交错误,有选项为空')
+            }
+            $.post('/api/Api_CM_BINDAPPLY_A1_Request', {
+                Settletype : $('#settletype').val(),
+                Settleperiod : $('#settleperiod').val(),
+                Changerflag : $('#changerflag').val(),
+                Changerrate : $('#changerrate').val(),
+                Card_merchan_aid : '#{loginaid}',
+                Apptype : '0',
+                Appstatus : '0',
+                Merchant_aid : '#{maid}',
+                Reqaid : '#{loginaid}'
+            }, function (res) {
+                if (res.status.resultcode === '0') {
+                    var bindid = res.pageList[0].sid
+                    var shopaid = '#{id}'
+                    // var cardid = $('input:checked').attr('cardid')
+                    var cardid_s = "";//定义一个数组
+                    $('input:checked').each(function () {//遍历每一个名字为interest的复选框，其中选中的执行函数
+                        if(cardid_s==""){
+                            cardid_s=$(this).attr('cardid');
+                        }else{
+                            cardid_s += ","+$(this).attr('cardid');
+                        }
+                    });
+                    console.log(cardid_s)
+                    $.post('/api/doubleajax', {
+                        bindid : bindid,
+                        shopaid : shopaid,
+                        cardid : cardid_s
+                    }, function (res) {
+                        zeroModal.closeAll();
+                        zeroModal.show({
+                            url: 'mer_success'
+                        })
+                    })
+
+
+                }
+            })
+        })
+
+
+
+
+
+
+
+
+
+
+
+

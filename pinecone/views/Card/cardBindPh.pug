@@ -1,0 +1,286 @@
+extends ../layout
+
+block head
+    link(rel='stylesheet', href='/css/CardIndex.css')
+block content
+    include ../include/card_header
+    .container
+        .content
+            include ../include/cardSide
+            .mainInclude
+                .m-content.clearfix
+                    .page-title
+                    .main-container
+                        .pagecont
+                            .bindPhone
+                                .step
+                                    .s-left
+                                        .s-line
+                                    .s-right
+                                        .s-line
+                                    .circle.s-one.active 1
+                                        .title 验证身份
+                                    .circle.s-two 2
+                                        .title 绑定新手机
+                                    .circle.s-three 3
+                                        .title 完成
+
+                                .bindMoudel
+                                    ul.first
+                                        li
+                                            .prompt
+                                                img(src='../../img/ts.png')
+                                                | 为保证您的账号安全，更换手机前请进行身份验证
+                                        li
+                                            span 绑定手机：
+                                            #oldphone #{username}
+                                            a(data-value='61').send#oldccode 发送验证码
+                                        li
+                                            span 验证码：
+                                            input(type='text' placeholder='请输入验证码' autocomplete="off" )#oldpcode
+                                            i.errors 请输入验证码
+                                            i.errors 您输入的验证码不正确
+                                        li
+                                            .btn.btn01 确定
+                                    ul.second.active
+                                        li
+                                            .prompt
+                                                img(src='../../img/ts.png')
+                                                | 请确保您输入的手机能正常接收激活邮件，手机才能生效。
+                                        li.second-one
+                                            span 手机：
+                                            input.phone(type='phone' placeholder='请输入新手机号' autocomplete="off" )#phone
+                                            i.errors 请输入手机号
+                                            i.errors 您填写的手机已注册，请重新填写
+                                            i.errors 您输入的手机号不正确
+                                        li
+                                            a(data-value='61').s-send#ccode 发送验证码
+                                        li.second-two
+                                            span 验证码：
+                                            input(type='text' placeholder='6位数字' autocomplete="off" )#pcode
+                                            i.errors 请输入验证码
+                                            i.errors 您输入的验证码不正确
+                                        li
+                                            .btn.btn02 确定
+                                    .success.active
+                                        .pic
+                                            img(src='../../img/succ.png')
+                                        p
+                                            | 恭喜您
+                                            span 修改绑定手机成功！
+                                            | 请使用新手机重新登录
+                                        .btnLogin
+                                            a(href='') 重新登录
+                                    .btm
+                                        h3 没收到手机校验码？
+                                        p 1、网络通讯异常可能会造成邮件丢失，请重新获取或稍后再试。
+                                        p 2、请核实手机是否正常使用，并检查垃圾手机夹。
+
+    script.
+        $(function () {
+            $("input").on('focus', function () {
+                $(this).siblings('.errors').css('display', 'none')
+            })
+        })
+        $('#oldccode').on('click', function () {
+            countdown();
+            var phonenum = $("#oldphone").text()
+            $.post('/api/Api_ACCOUNT_A5_qryVerCode_cardmerchant_Request', {
+                Regphonenumber: phonenum,
+                Accounttype: '3'
+            }, function (res) {
+                console.log(res.status.resultcode)
+                oldpcodenum = res.pageList[0].vercode
+            })
+        });
+        $('.btn01').on('click', function () {
+            var pcode = $('#oldpcode').val()
+            var errornum = 0;
+            if (pcode == '' || typeof(oldpcodenum) === 'undefined') {
+                $('.first .errors').eq('0').css('display', 'block');
+                errornum++;
+            } else {
+                $('.first .errors').eq('0').css('display', 'none');
+                if (pcode !== oldpcodenum) {
+                    $('.first .errors').eq('1').css('display', 'block')
+                    return false;
+                } else {
+                    $('.first .errors').eq('1').css('display', 'none')
+                }
+            }
+            if (errornum > 0) {
+                return false;
+            } else {
+                var phonenum = $("#oldphone").text()
+
+                $.post('/api/Api_ACCOUNT_A5_qryOrgVerCodet_Request', {
+                    Regphonenumber: phonenum,
+                    Accounttype: '3'
+                }, function (res) {
+                    console.log(res.status.resultcode)
+                    pcodenum = res.pageList[0].vercode
+                })
+                $('.first .errors').each(function () {
+                    if ($(this).css("display") === 'block') {
+                        zeroModal.error('请核对无误,再提交')
+                        return false
+                    }
+                })
+                $('ul.first').addClass('active');
+                $('ul.second').removeClass('active');
+                $('.s-left .s-line').addClass('active');
+                $('.s-two').addClass('active');
+            }
+        })
+    script.
+        $("#phone").on('blur', function () {
+            var phonenum = $(this).val()
+            var reg = /^1[3|4|5|6|7|8|9][0-9]{9}$/;
+            var isok = reg.test(phonenum);
+            if (!isok) {
+                $('.second-one .errors').eq('2').css('display', 'block')
+                return false;
+            } else {
+                $.post('/api/Api_ACCOUNT_A5_check_RegPhoneNumber_Request', {
+                    Regphonenumber: phonenum,
+                    Accounttype: '3'
+                }, function (res) {
+                    console.log(res.status.resultcode)
+
+                    if (res.pageList[0].isexists === 1) {
+
+                        $('.second-one .errors').eq('1').css('display', 'block')
+                    } else {
+                        $('.second-one .errors').eq('1').css('display', 'none')
+                    }
+                })
+                $('.second-one .errors').eq('2').css('display', 'none')
+            }
+        })
+        $('#ccode').on('click', function () {
+            countdown1()
+            var phonenum = $("#phone").val()
+            if (phonenum === '') {
+                $('.second-one .errors').eq('0').css('display', 'block');
+                return false
+            } else {
+                $('.second-one .errors').eq('0').css('display', 'none');
+
+                $.post('/api/Api_ACCOUNT_A5_qryVerCode_cardmerchant_Request', {
+                    Regphonenumber: phonenum,
+                    Accounttype: '3'
+                }, function (res) {
+                    console.log(res.status.resultcode)
+                    Orgvercode = res.pageList[0].vercode
+                })
+            }
+        })
+        $("#pcode").on('blur', function () {
+            var pcodes = $(this).val()
+            // if (typeof(pcodenum) === 'undefined') {
+            //     zeroModal.error('请点击获取验证码')
+            //     return false
+            // }
+            var reg = pcodenum
+            if (reg !== pcodes) {
+                $('.second-two .errors').eq('1').css('display', 'block')
+                return false;
+            } else {
+                $('.second-two .errors').eq('1').css('display', 'none')
+            }
+        })
+        $('.btn02').on('click', function () {
+            $('.errors').css('display', 'none');
+            var oldpcode = $('#oldpcode').val()
+            if (oldpcode !== oldpcodenum) {
+                zeroModal.error('需要验证码')
+                return false;
+            }
+
+            var phone = $('#phone').val()
+            var pcode = $('#pcode').val()
+
+            var errornum = 0;
+
+            if (phone === '') {
+                $('.second-one .errors').eq('0').css('display', 'block');
+                errornum++;
+            } else {
+                $('.second-one .errors').eq('0').css('display', 'none');
+            }
+            if (pcode === '') {
+                $('.second-two .errors').eq('0').css('display', 'block');
+                errornum++;
+            } else {
+                $('.second-two .errors').eq('0').css('display', 'none');
+            }
+
+            if (errornum > 0) {
+                return false;
+            } else {
+                $('.second .errors').each(function () {
+                    if ($(this).css("display") === 'block') {
+                        zeroModal.error('请核对无误,再提交')
+                        return false
+                    }
+                })
+                var postData = {
+                    Newregphonenumber: phone,
+                    Vercode: pcode,
+                    Orgvercode: Orgvercode
+                }
+                console.log(postData)
+                $.post('/api/Api_ACCOUNT_A5_changeRegPhoneNumber_Request', postData, function (res) {
+                    console.log(res.status.resultcode)
+                    // if (res.status.resultcode === '0') {
+                    //     $('.s-right .s-line').addClass('active');
+                    //     $('.s-three').addClass('active');
+                    //     $('ul.second').addClass('active');
+                    //     $('.btm').addClass('active');
+                    //     $('.success').removeClass('active');
+                    //     $.post('/api/loginout', function (data) {
+                    //         if (data === '1') {
+                    //             window.location.reload()
+                    //         } else {
+                    //             zeroModal.error('网络异常')
+                    //         }
+                    //
+                    //     }).error(function () {
+                    //         zeroModal.error('网络异常');
+                    //     });
+                    // }
+                })
+
+
+            }
+        })
+        function countdown() {
+            var timedown = window.setInterval(function () {
+                var a = $('#oldccode').data('value')
+                var b = a - 1
+                $('#oldccode').data('value', b)
+                $('#oldccode').addClass('type')
+                $('#oldccode').text(b + '秒后重新获取')
+                if (a === 1) {
+                    window.clearInterval(timedown)
+                    $('#oldccode').text('获取验证码')
+                    $('#oldccode').data('value', '61')
+                    $('#oldccode').removeClass('type')
+                }
+            }, 1000);
+        }
+        function countdown1() {
+            var timedown = window.setInterval(function () {
+                var a = $('#ccode').data('value')
+                var b = a - 1
+                $('#ccode').data('value', b)
+                $('#ccode').addClass('type')
+                $('#ccode').text(b + '秒后重新获取')
+                if (a === 1) {
+                    window.clearInterval(timedown)
+                    $('#ccode').text('获取验证码')
+                    $('#ccode').data('value', '61')
+                    $('#ccode').removeClass('type')
+                }
+            }, 1000);
+        }

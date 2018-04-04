@@ -1,0 +1,81 @@
+extends ../../layout
+
+block head
+    link(rel='stylesheet', href='../../css/CardIndex.css')
+block content
+    include ../../include/card_header
+    .container
+        .content
+            include ../../include/cardSide
+            .mainInclude
+                .m-content.clearfix
+                    .page-title
+                        a.home(href='/card')
+                        span / 订单中心 /
+                        span  消费订单中心 /
+                        a(href='javascript:history.go(-1)')  审核中订单管理 /
+                        span.last  审核中订单详情
+                    .main-container
+                        .pagecont
+                            .shz-detail.consum_shz_detail
+                                .del-top
+                                    img(src='../../img/spz@2x.png')
+                                    span 该笔订单审核中！
+                                .detail-content
+                                    .order-detail
+                                        .or-top 用户信息
+                                        ul
+                                            li
+                                                span 申请人：
+                                                .info 彭大石
+                                            li
+                                                span 手机号码：
+                                                .info 13282772823
+                                            li
+                                        .or-btm
+                                            a(href='') 查看用户详细信息
+                                    .order-detail
+                                        .or-top 订单信息
+                                        ul
+                                            li
+                                                span 订单编号：
+                                                .info #{orderList.pageList[0].sid}
+                                            li
+                                                span 订单金额：
+                                                .info #{orderList.pageList[0].creditcardamount}
+                                            li
+                                                span 下单时间：
+                                                .info #{orderList.pageList[0].ordertime}
+                                            li
+                                                span 使用卡片：
+                                                .info #{orderList.pageList[0].typename}
+                                            li
+                                                span 下单商户：
+                                                .info #{orderList.pageList[0].mname}
+                                            li
+                                                span 下单门店/电商：
+                                                .info #{orderList.pageList[0].shopname}
+                                            li
+                                                span 支付类型：
+                                                .info #{orderList.pageList[0].ordertype}
+                                            li
+                                                span 状态：
+                                                .info #{orderList.pageList[0].orderstate}
+                                    .order-detail
+                                        .or-top 分期方案信息
+                                        ul
+                                            li
+                                                span 总还款金额：
+                                                .info #{billsList.pageList[0].total}
+                                            li
+                                                span 总服务费金额：
+                                                .info #{billsList.pageList[0].sertotal}
+                                            li
+                                                span 分期期数：
+                                                .info #{billsList.pageList[0].periodsnum}
+                                            li
+                                                span 每期还款金额：
+                                                .info #{parseInt(billsList.pageList[0].total/billsList.pageList[0].periodsnum) }
+                                            li
+                                                span 手续费：
+                                                .info #{billsList.pageList[0].sertotal/(billsList.pageList[0].periodsnum*30)} 元/天

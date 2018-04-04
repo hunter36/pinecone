@@ -1,0 +1,121 @@
+extends ../../layout
+
+block head
+    link(rel='stylesheet', href='../css/storeIndex.css')
+    link(rel='stylesheet', href='../css/cardIndex.css')
+block content
+    include ../../include/header
+    .container
+            .content
+                include ../../lSide
+                .mainInclude
+                    .m-content.clearfix
+                        .page-title 虚拟卡基本信息
+                        .main-container
+                            .cardDetail
+                                .de-line
+                                    h4 虚拟卡基本信息：
+                                    ul
+                                        li.de-first
+                                            span.de-title 虚拟卡logo：
+                                            .pic
+                                                img(src='../img/ciri.jpg')
+                                        li
+                                            span.de-title 虚拟卡名称：
+                                            | 轻奢虚拟卡
+                                        li
+                                            span.de-title 预估额度：
+                                            | 123123
+                                        li
+                                            span.de-title 申请条件：
+                                            | 年龄在18-35之间
+                                        li
+                                            span.de-title 应用范围：
+                                            | 服饰、数码3C
+                                        li
+                                            span.de-title 虚拟卡支付类型：
+                                            | 信用支付
+                                .de-line
+                                    h4 协议信息：
+                                    .agreement
+                                        a(href='') 《征信授权协议》
+                                        a(href='') 《用户虚拟卡服务协议》
+                                .de-line
+                                    h4 息费标准：
+                                    ul
+                                        li
+                                            span.de-title 免息期：
+                                            | 60天
+                                        li
+                                            span.de-title 账单日：
+                                            | 6号
+                                        li
+                                            span.de-title 还款日：
+                                            | 16号
+                                        li
+                                            span.de-title 分期费率：
+                                            | 8%/期（分3期）、6%/期（分6期）、5%/期（分9期）、4%/期（分12期）、3%/期（分18期）、1.8%/期（分24期）
+                                        li
+                                            span.de-title 逾期费率：
+                                            | 5%/天
+                                .de-line
+                                    h4 失效规则：
+                                    ul
+                                        li
+                                            span.de-title 有效期：
+                                            | 6个月
+                                        li
+                                            span.de-title 使用次数：
+                                            | 30次
+                                .de-line
+                                    h4 最低单笔消费：
+                                    ul
+                                        li
+                                            span.de-title 最低单笔消费金额：
+                                            | 1000.00元
+                                .de-line
+                                    h4 会员费规则：
+                                    ul
+                                        li
+                                            span.de-title 会员费标准：
+                                            | 0.00元
+                                .de-line
+                                    h4 特权政策：
+                                    .privilege
+                                        table.carddetail
+                                            thead
+                                              tr
+                                                th 特权
+                                                th 条件
+                                            tbody
+                                              tr
+                                                td 积分换礼品
+                                                td ---
+                                              tr
+                                                td 新品推送服务
+                                                td 单次消费≥10000.00
+                                              tr
+                                                td 新品推送服务
+                                                td 单次消费≥10000.00
+                                .de-line
+                                    h4 卡服务商信息：
+                                    ul
+                                        li
+                                            span.de-title 卡服务商名称：
+                                            | XX有限公司
+                                        li
+                                            span.de-title 卡服务商办公地址：
+                                            | ** 省**市**区 **街道**号
+                                        li
+                                            span.de-title 虚拟卡服务商联系电话：
+                                            | 17787653456
+                                        li
+                                            span.de-title 虚拟卡服务商营业执照编号：
+                                            | 2846546513216511313
+                                        li
+                                            span.de-title 虚拟卡服务商营业执照：
+                                            .pic
+                                                img(src='../img/ciri.jpg')
+                                .de-btn
+                                    span 发起合作
+

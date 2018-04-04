@@ -1,0 +1,221 @@
+extends ../../layout
+
+block head
+    link(rel='stylesheet', href='../../css/CardIndex.css')
+    meta(http-equiv="Content-Type", content="text/html;charset=utf-8")
+    script(type="text/javascript", charset="utf-8", src="/ueditor/ueditor.config.js")
+    script(type="text/javascript", charset="utf-8", src="/ueditor/ueditor.all.min.js")
+    script(type="text/javascript", charset="utf-8", src="/ueditor/lang/zh-cn/zh-cn.js")
+block content
+    include ../../include/card_header
+    .container
+        .content
+            include ../../include/cardSide
+            .mainInclude
+                .m-content.clearfix
+                    .page-title
+                        a.home(href='/card')
+                        span / 虚拟卡中心 /
+                        a(href='javascript:history.go(-1)')  我的虚拟卡 /
+                        span.last  提交审核
+                    .main-container
+                        .pagecont
+                            form(action='/api/apply', enctype='multipart/form-data', method='post')#formsave
+                                .cardDetail.editCard
+                                    .de-line
+                                        h4 虚拟卡信息：
+                                        ul
+                                            li.de-first
+                                                span.de-title 虚拟卡logo：
+                                                .pic
+                                                    - var imgS = imgurl + cardData.pageList[0].clog
+                                                    img(src=imgS)
+                                                input#pic(type='file' value='' name='clog')
+                                            li
+                                                span.de-title 卡片名称：
+                                                - var cardName = cardData.pageList[0].typename
+                                                input(name='typename' value=cardName readonly="readonly")
+                                            li
+                                                span.de-title 预估额度：
+                                                - var predict = cardData.pageList[0].predict
+                                                input(type='text' value=predict readonly="readonly" name='predict')
+                                            li
+                                                span.de-title 申请条件：
+                                                - var condition = cardData.pageList[0].condition
+                                                textarea(value=condition readonly="readonly" name='condition') #{condition}
+
+                                            li
+                                                span.de-title 应用范围：
+                                                - var range = cardData.pageList[0].range
+                                                textarea(value=range readonly="readonly" name='range') #{range}
+                                            li
+                                                span.de-title 卡片类型：
+                                                - var maintype = cardData.pageList[0].maintype
+                                                input(value=maintype readonly="readonly" name='profiles')
+                                            li
+                                                span.de-title 卡片简介：
+                                                - var profiles = cardData.pageList[0].profiles
+                                                textarea(value=profiles readonly="readonly" name='profiles') #{profiles}
+                                    .de-line
+                                        h4 协议管理：
+                                        .agreement
+                                            .ag-topa
+                                                a.zxsq.active 征信授权协议
+                                                    - var cdoc = specialData.pageList[0].cdoc
+                                                    input(style='display:none' value=cdoc name='cdoc')#cdoc
+                                                a.yhsx 用户授信额度协议
+                                                    - var pdoc = specialData.pageList[0].pdoc
+                                                    input(style='display:none' value=pdoc name='pdoc')#pdoc
+                                            .ag-content
+                                                .editor.active
+                                                    #editor01(type="text/plain", style="width:100%;height:500px;")
+                                                .editor
+                                                    #editor02(type="text/plain", style="width:100%;height:500px;")
+                                    .de-line
+                                        h4 息费设置：添加
+                                        ul
+                                            li
+                                                span.de-title 可分期期数及费率：
+                                                .byStages
+                                                    if periodData.pageList[0] !== undefined
+                                                        for data in periodData.pageList
+                                                            .bs-line
+                                                                - var periodcount = data.periodcount
+                                                                input(type="number" name='periodcount' value=periodcount readonly="readonly")
+                                                                span 期 ———
+                                                                - var rate = parseInt(data.rate * 100)
+                                                                input(type="number" name='rate' value=rate readonly="readonly")
+                                                                span %
+                                            li
+                                                span.de-title(name='cp9_expirerate') 分期后逾期费率：
+                                                - var cp9Expirerate = contractData.pageList[0].cp9Expirerate
+                                                input(type="number" name='cp9_expirerate' readonly="readonly" value=cp9Expirerate)
+                                                |  %
+                                            li
+                                                span.de-title(name='cp6_grace') 账单宽限天数：
+                                                - var cp6Grace = contractData.pageList[0].cp6Grace
+                                                input(type="number" name='cp6_grace' readonly="readonly" value=cp6Grace)
+                                                |  天
+                                    .de-line
+                                        h4 失效规则设置：
+                                        ul
+                                            li
+                                                span.de-title(name='cp10_loseexplen') 卡片的有效期：
+                                                - var cp10Loseexplen = contractData.pageList[0].cp10Loseexplen
+                                                input(type="number" name='cp10_loseexplen' readonly="readonly" value=cp10Loseexplen)
+                                                |  天
+                                    .de-line
+                                        h4 最低单笔消费：
+                                        ul
+                                            li
+                                                span.de-title(name='cp12_minpay') 单笔最低消费不能低于：
+                                                - var cp12Minpay = contractData.pageList[0].cp12Minpay
+                                                input(type="number" name='cp12_minpay' readonly="readonly" value=cp12Minpay)
+                                                |  元
+                                    .de-line
+                                        h4 会员费设置：
+                                        ul
+                                            li
+                                                span.de-title 会员费金额：
+                                                - var cp13Memberfee = contractData.pageList[0].cp13Memberfee
+                                                input(type="number" name='cp13_memberfee' readonly="readonly" value=cp13Memberfee)
+                                                |  元
+                                            li
+
+                                                span.de-title 会员费收取方式：
+                                                - var p14MfType = contractData.pageList[0].p14MfType
+                                                input(type="number" name='p14_mf_type' readonly="readonly" value=p14MfType)
+
+                                            li
+                                                if p14MfType === '0'
+                                                    .se-line.se01.active
+                                                        - var p15MfCounts = contractData.pageList[0].p15MfCounts
+                                                        input(type="number" name='p15_mf_counts' readonly="readonly" value=p15MfCounts)
+                                                        |  次
+                                                        p 设置会员费在申卡后第几次消费后收取
+                                                else if p14MfType === '1'
+                                                    .se-line.se02.active
+                                                        - var c17MfStart = contractData.pageList[0].c17MfStart
+                                                        input(type="number" name='c17_mf_start' readonly="readonly" value=c17MfStart)
+                                                        |  天
+                                                        p 设置会员费在申卡后多少天后生成
+                                    //.de-line
+                                    //    h4 特权政策：
+                                    //    .privilege
+                                    //        h5 系统内特权：
+                                    //        table
+                                    //            thead
+                                    //                tr
+                                    //                    th(width='45%') 特权信息
+                                    //                    th(width='45%') 激活条件
+                                    //            tbody
+                                    //                tr
+                                    //                    td 减免第3次会员费，减免30%
+                                    //                    td 申卡后3个月内，总使用次数达到3次
+                                    //                tr
+                                    //                    td 分期息费减免-永久，减免40%
+                                    //                    td 分期次数达到10次以上
+                                    //        h5 系统外特权：
+                                    //        table
+                                    //            thead
+                                    //                tr
+                                    //                    th(width='45%') 特权信息
+                                    //                    th(width='45%') 激活条件
+                                    //            tbody
+                                    //                tr
+                                    //                    td 减免第3次会员费，减免30%
+                                    //                    td 申卡后3个月内，总使用次数达到3次
+                                    //                tr
+                                    //                    td 分期息费减免-永久，减免40%
+                                    //                    td 分期次数达到10次以上
+                                    .de-line
+                                        h4 风控策略信息：
+                                        ul
+                                            li
+
+                                                span.de-title 选择风控策略：
+                                                - var cp19Risk = contractData.pageList[0].cp19Risk
+                                                input(type="number" name='cp19_risk' value=cp19Risk readonly="readonly")
+                                    .de-line
+                                        h4 资金源配置：
+                                        ul
+                                            li
+                                                span.de-title 选择资金账户：
+                                                - var cp20Wid = contractData.pageList[0].cp20Wid
+                                                input(type="number" name='cp20_wid' value=cp20Wid readonly="readonly")
+                                    //.de-line
+                                    //    h4 各类型商户服务费设置：
+                                    //    ul
+                                    //        li
+                                    //            span.de-title 个体商户服务费：
+                                    //            | 20%
+                                    //        li
+                                    //            span.de-title 私营商户服务费：
+                                    //            | 20%
+                                    //        li
+                                    //            span.de-title 连锁商户服务：
+                                    //            | 20%
+
+    script.
+        $('.agreement a').on('click', function () {
+            $(this).addClass('active').siblings().removeClass('active');
+            var activeindex = $('.agreement').find("a").index(this);
+            console.log(activeindex);
+            $('.ag-content').children().eq(activeindex).addClass("active").siblings().removeClass('active');
+        })
+
+    script.
+
+        // 富文本编辑器 初始化
+        var ue01 = UE.getEditor('editor01')
+        var ue02 = UE.getEditor('editor02');
+        ue01.ready(function () {
+            var cdoc = $('#cdoc').val()
+            ue01.execCommand('inserthtml', cdoc)
+            ue01.setDisabled('fullscreen');
+        });
+        ue02.ready(function () {
+            var pdoc = $('#pdoc').val()
+            ue02.execCommand('inserthtml', pdoc)
+            ue02.setDisabled('fullscreen');
+        });

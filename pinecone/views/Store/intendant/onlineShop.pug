@@ -1,0 +1,143 @@
+extends ../../layout
+block head
+    link(rel='stylesheet', href="../../css/store.css")
+    link(rel='stylesheet', href="../../css/storeIndex.css")
+block content
+    include ../../include/header
+    .container
+            .content
+                include ../../lSide
+                .mainInclude
+                    .m-content.clearfix
+                        .page-title
+                            span 电商管理
+                        .main-container
+                                .mode-main
+                                    .mt
+                                        .extra
+                                            .extra-l
+                                                .ipt
+                                                    span 电商名称：
+                                                    input(type="text",value="")
+                                                .ipt
+                                                    span 电商IP：
+                                                    input(type="text",value="")
+                                                .ipt
+                                                    span 状态：
+                                                    select
+                                                        option 全部
+                                            .extra-r
+                                                a.bpt.btn-danger(href="").kfz 搜索
+                                                a.bpt(href="").kfz 重置
+                                    .mc
+                                        .site-tabl-link.extra(style="margin-top:30px")
+                                            .extra-l
+                                                a.tabtn.orange.add(href="/store/tenant/publishDs")
+                                                    i.addcz
+                                                    | 发布电商
+                                                .tabtn.danger.kfz
+                                                    i.remove
+                                                    | 删除
+                                            .extra-r
+                                                a.tabtn(href="/store/tenant/onlineShopCg")
+                                                    i.cgx
+                                                    | 草稿箱
+                                        .site-t-inner
+                                            .mtable
+                                                table.bord
+                                                    thead
+                                                        tr
+                                                            th
+                                                                input#all(type='checkbox')
+                                                            th 电商名称
+                                                            th 电商IP
+                                                            th 状态
+                                                            th(width="200px") 操作
+                                                    for data in DSlist.pageList
+                                                        tbody.xj
+                                                                tr
+                                                                    td
+                                                                        input(type='checkbox',value=data.aid)
+                                                                    td  #{data.shopname}
+                                                                    td  #{data.eip}
+                                                                    if data.appstate == '0'
+                                                                        td 审核中
+                                                                    else if data.appstate == '1'
+                                                                        if data.shopstate == '0'
+                                                                            td
+                                                                                span.orange 待营业
+                                                                        else if data.shopstate == '1'
+                                                                            td
+                                                                                span.green 营业中
+                                                                    td
+                                                                        if data.appstate == '0'
+                                                                            a.see(href='/store/tenant/viewDsWait?mdid=' + data.aid + '&tyzt=' + data.appstate) 查看详情
+                                                                        else if data.appstate == '1'
+                                                                            a.see(href='javascript:void(0)') 查看详情
+                                                                            if data.shopstate == '0'
+                                                                                a#name(href='javascript:;',onclick="business(this)").green 开始营业
+                                                                            else if data.shopstate == '1'
+                                                                                a#okll(href='javascript:;',onclick="pause(this)").red 暂停营业
+
+    script.
+        //全选效果
+        $('#all').on('click', function () {
+            $(".xj input[type='checkbox']").prop("checked", $("#all").prop("checked"));
+        });
+        $(".xj input[type='checkbox']").each(function () {
+            $(this).on('click', function () {
+                var allCheckNum = $(".xj input[type='checkbox']").length;
+                var checkedNum = $(".xj input[type='checkbox']:checked").length;
+                if (allCheckNum == checkedNum) {
+                    $("#all").prop("checked", 'checked');//全被选中
+                } else {
+                    $("#all").prop("checked", '');//部分选中
+                }
+            })
+        });
+        function business(obj) {
+            var thisobj = $(obj);
+            var val = thisobj.closest('tr').find('input').val();
+            zeroModal.confirm({
+                content: '确认电商开始营业?',
+                okFn: function () {
+                    $.post('/api/Api_MERCHANT_SHOP_A5_enableShopState_Request', {Aid: val}, function (resData) {
+                        if (resData.status.resultcode == '0') {
+                            zeroModal.alert({
+                                content: '电商已经开始营业了',
+                                okFn: function () {
+                                    window.location.reload();
+                                }
+                            });
+                        }
+                        ;
+                    });
+                }
+            })
+        };
+        function pause(obj) {
+            var thisobj = $(obj);
+            var val = thisobj.closest('tr').find('input').val();
+            zeroModal.confirm({
+                content: '确认电商暂停营业?',
+                okFn: function () {
+                    $.post('/api/Api_MERCHANT_SHOP_A5_disableShopState_Request', {Aid: val}, function (resData) {
+                        if (resData.status.resultcode == '0') {
+                            zeroModal.alert({
+                                content: '电商已经暂停营业了',
+                                okFn: function () {
+                                    window.location.reload();
+                                }
+                            });
+                        }
+                        ;
+                    });
+                }
+            })
+        }
+
+
+
+
+
+

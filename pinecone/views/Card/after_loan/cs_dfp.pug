@@ -1,0 +1,146 @@
+extends ../../layout
+
+block head
+    link(rel='stylesheet', href='../../css/CardIndex.css')
+block content
+    include ../../include/card_header
+    .container
+        .content
+            include ../../include/cardSide
+            .mainInclude
+                .m-content.clearfix
+                    .page-title
+                        a.home(href='/card')
+                        span / 贷后中心 /
+                        span.last  待分配催收计划的催收任务
+                    .main-container
+                        .pagecont
+                            .cs-dfp
+                                .invite-con
+                                    .i-c-top
+                                        .t-line
+                                            span 账单编号
+                                            input(type='text', placeholder='请输入编号')
+                                        .t-line
+                                            span 用户姓名
+                                            input(type='text', placeholder='请输入名称')
+                                        .t-line
+                                            span 用户手机号
+                                            input(type='text', placeholder='请输入手机号')
+                                        .t-line
+                                            span 所属卡片名称
+                                            input(type='text', placeholder='输入名称')
+                                        .t-line
+                                            span.sea 搜索
+                                            span.reset 重置
+                                .dfp-content
+                                    ul
+                                        li.first
+                                            .check
+                                                input#all(type='checkbox')
+                                                .check-icon
+                                        li 用户姓名
+                                        li 用户手机号
+                                        li 所属卡片名称
+                                        li 应还金额
+                                        li 滞纳金金额
+                                        li 逾期天数
+                                        li 状态
+                                        li 催收日志
+                                        li 操作
+                                    .con-list.plan-check
+                                        table
+                                            caption
+                                                span.bh 任务编号：2016081514432586
+                                                span.num 账单编号：2016081514432586
+                                                span.time 账单到期日：2017-10-12
+                                            tbody.plan-check
+                                                tr
+                                                    td.first
+                                                        .check
+                                                            input(type='checkbox')
+                                                            .check-icon
+                                                    td 暂无数据
+                                                    td 暂无数据
+                                                    td 暂无数据
+                                                    td 暂无数据
+                                                    td 暂无数据
+                                                    td 暂无数据
+                                                    td 待分配
+                                                    td
+                                                        a(href='') 查看日志
+                                                    td
+                                                        a(href='cs_dfp_detail') 查看详情
+                                        table
+                                            caption
+                                                span.bh 任务编号：2016081514432586
+                                                span.num 账单编号：2016081514432586
+                                                span.time 账单到期日：2017-10-12
+                                            tbody.plan-check
+                                                tr
+                                                    td.first
+                                                        .check
+                                                            input(type='checkbox')
+                                                            .check-icon
+                                                    td 暂无数据
+                                                    td 暂无数据
+                                                    td 暂无数据
+                                                    td 暂无数据
+                                                    td 暂无数据
+                                                    td 暂无数据
+                                                    td 待分配
+                                                    td
+                                                        a(href='') 查看日志
+                                                    td
+                                                        a(href='') 查看详情
+
+    style.
+        .zeromodal-header {
+            text-align: center;
+            height: 59px;
+            line-height: 59px;
+            background: #E63F46;
+            color: #fff;
+        }
+
+        .zeromodal-close {
+            background: url("../../img/close.png") no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .zeromodal-btn-primary {
+            background: #E63F46;
+        }
+    script.
+        $(function(){
+            $('.check input').on('click', function(){
+                if($(this).siblings().hasClass('active')){
+                    $(this).siblings().removeClass('active');
+                }else{
+                    $(this).siblings().addClass('active');
+                }
+
+            })
+            //全选效果
+            $('#all').on('click', function () {
+                $(".plan-check input[type='checkbox']").prop("checked", $("#all").prop("checked"));
+                if($("#all[type='checkbox']").is(':checked')){//判断#all是否被选中，如果选中则添加选中效果
+                    $('.check input').siblings().addClass('active');
+                }else{
+                    $('.check input').siblings().removeClass('active');
+                }
+            });
+            $(".plan-check input[type='checkbox']").each(function () {
+                $(this).on('click', function () {
+                    var allCheckNum = $(".plan-check input[type='checkbox']").length;
+                    var checkedNum = $(".plan-check input[type='checkbox']:checked").length;
+                    if (allCheckNum == checkedNum) {
+                        $("#all").prop("checked", 'checked').siblings().addClass('active');//全被选中时给#all添加选中效果
+                    } else {
+                        $("#all").prop("checked", '').siblings().removeClass('active');//部分选中时删除#all的选中效果
+                    }
+                })
+            });
+
+
+        })

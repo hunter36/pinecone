@@ -1,0 +1,67 @@
+extends ../../layout
+
+block head
+    link(rel='stylesheet', href='../../css/CardIndex.css')
+
+block content
+    .operator_c_add.operator_c_detail
+        ul
+            li
+                .top
+                    span 姓名：
+                    - var aid = workerList.pageList[0].aid
+                    - var sid = workerList.pageList[0].sid
+                    span.edit1(aid=aid sid=sid) 修改
+                .con #{workerList.pageList[0].name}
+            li
+                .top
+                    span 身份证号码：
+                .con #{workerList.pageList[0].idnumber}
+            li
+                .top
+                    span 选择职位：
+                .con #{workerList.pageList[0].rname}
+            li
+                .top
+                    span 手机号码：
+                .con #{workerList.pageList[0].regphonenumber}
+            li.last
+                .top
+                    span 密码：
+                    - var aid = workerList.pageList[0].aid
+                    - var sid = workerList.pageList[0].sid
+                    span.edit2(aid=aid sid=sid) 修改
+                .con **************
+
+    style.
+        .zeromodal-header {
+            text-align: center;
+            height: 59px;
+            line-height: 59px;
+            background: #E63F46;
+            color: #fff;
+        }
+
+        .zeromodal-close {
+            background: url("../../img/close.png") no-repeat;
+            background-size: 100% 100%;
+        }
+
+    script.
+        $('.edit1').on('click', function(){
+            zeroModal.show({
+                width:'430px',
+                height:'550px',
+                title:'修改操作员账户信息',
+                url:'operator_edit_info?aid=' + $(this).attr('aid') + '&sid=' + $(this).attr('sid')
+            })
+        })
+
+        $('.edit2').on('click', function () {
+            zeroModal.show({
+                width: '430px',
+                height: '370px',
+                title: '修改操作员账户信息',
+                url: 'operator_edit_pwd?aid=' + $(this).attr('aid') + '&sid=' + $(this).attr('sid')
+            })
+        })
