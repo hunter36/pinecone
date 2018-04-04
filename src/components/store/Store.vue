@@ -1,22 +1,22 @@
 <template>
     <div>
-        <swipe :auto="4000" class="swipeBox">
-            <swipe-item><img src="../../assets/img/门店1图@2x.png" alt="门店图"></swipe-item>
-            <swipe-item><img src="../../assets/img/门店3图@2x.png" alt="门店图"></swipe-item>
-            <swipe-item><img src="../../assets/img/门店4图@2x.png" alt="门店图"></swipe-item>
+        <swipe class="swipeBox">
+            <span class="return" @click="goback"></span>
+            <swipe-item v-for="img in imgList" :key="img.id"><img :src="img.src"></swipe-item>
+            <!-- <span class="num">{{num}}/{{imgList.length}}</span> -->
         </swipe>
         <div class="contact">
             <div class="contact-left">
                 <div>中国移动星光大道店</div>
-                <div><span><img class="address" src="../../assets/img/商家详情定位 拷贝@2x.png" alt="address"></span>浙江省杭州市滨江区春晓路23号</div>
+                <div><span><img class="address" src="../../assets/img/dingwei@2x.png" alt="address"></span>浙江省杭州市滨江区春晓路23号</div>
             </div>
-            <div class="contact-right"><span class="tel"><img src="../../assets/img/tel.png" alt="tel"></span>&nbsp;联系商家</div>
+            <div class="contact-right"><span class="tel"><img src="../../assets/img/lianxi@2x.png" alt="tel"></span>&nbsp;联系商家</div>
         </div>
         <div class="titleBar">门店可用虚拟卡</div>
         <div class="possess">
             <div class="possess-title">
                 <div class="float-left"><span><img src="../../assets/img/success@2x.png" alt="已拥有"></span>已拥有的卡片</div>
-                <div class="float-right">查看更多<span><img src="../../assets/img/更多1@2x.png" alt="查看更多"></span></div>
+                <div class="float-right">查看更多<span><img src="../../assets/img/gengduo@2x.png" alt="查看更多"></span></div>
             </div>
             <div class="card">
                 <dl>
@@ -41,8 +41,8 @@
         </div>
         <div class="possess">
             <div class="possess-title">
-                <div class="float-left"><span><img src="../../assets/img/未拥有@2x.png" alt="未拥有"></span>未拥有的卡片</div>
-                <div class="float-right">查看更多<span><img src="../../assets/img/更多1@2x.png" alt="查看更多"></span></div>
+                <div class="float-left"><span><img src="../../assets/img/kapian@2x.png" alt="未拥有"></span>未拥有的卡片</div>
+                <div class="float-right">查看更多<span><img src="../../assets/img/gengduo@2x.png" alt="查看更多"></span></div>
             </div>
             <div class="card">
                 <dl>
@@ -78,8 +78,23 @@
         },
         data(){
             return {
-                
+                imgList:[
+                    {id:1,src:require("../../assets/img/门店1图@2x.png")},
+                    {id:2,src:require("../../assets/img/门店3图@2x.png")},
+                    {id:3,src:require("../../assets/img/门店4图@2x.png")}
+                ],
+                num:1
             }
+        },
+        methods: {
+            goback(){
+                window.history.go(-1)
+            },
+            // handleChange() {
+            //     console.log("111")
+            //     // this.num = index;
+            //     // console.log(this.num)
+            // }
         }
     }
 </script>
@@ -93,8 +108,33 @@
         width: 100%;
         height: 3.99rem;
     }
+    .return{
+        display: inline-block;
+        width: .21rem;
+        height: .36rem;
+        z-index: 10;
+        position: absolute;
+        top: .64rem;
+        left: .3rem;
+        background: url(../../assets/img/fanhui@2x.png) no-repeat;
+        background-size: 100%;
+    }
+    .num{
+        position: absolute;
+        display: inline-block;
+        width: .49rem;
+        height: .3rem;
+        bottom: .4rem;
+        right: .4rem;
+        color: #FFFFFF;
+        font-size: .36rem;
+        line-height:.62rem;
+        font-family:PingFangSC-Light;
+        opacity: .8;
+    }
     .swipeBox img{
         width: 100%;
+        height: 3.99rem;
     }
     .contact{
         background: #fff;

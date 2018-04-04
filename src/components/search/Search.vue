@@ -1,8 +1,4 @@
 <template>
-<<<<<<< HEAD
-	<!-- <h1>This is Search module!</h1> -->
-=======
->>>>>>> 916eb4cd3d5f30b96c6f888909e216f03560bdb6
 	<div class="box">
 		<div class="card views">
 			<div class="titleBar">卡片</div>
