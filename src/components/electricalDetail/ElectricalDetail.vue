@@ -181,7 +181,7 @@
 		line-height: .8rem;
 		text-align: center;
 		border-bottom: 1px solid #ECECEC;
-		background: url(../../assets/img/标头线1@2x.png) no-repeat center center;
+		background: url(../../assets/img/top-line@2x.png) no-repeat center center;
         background-size: 100%; 
         background-color: #fff;
         margin-top: .1rem;

@@ -19,7 +19,7 @@
       <div class="bill">
             <div class="billtitle">所还账单</div>
             <div class="billbottom">
-                <div class="left">
+                <div class="lf">
                     <p class="p1">
                         <span class="span1">XXX卡（1456）</span>
                         <span class="span2">300.00</span>
@@ -82,20 +82,22 @@
      .bottom{
          padding-left: 0.3rem;
          padding-right: 0.3rem;
+         height: 1.4rem;
          padding-top: 0.5rem;
-         padding-bottom: 0.04rem;
      }
      .bottom p{
          overflow: hidden;
          margin-bottom: 0.45rem;
+         height: 0;
+         height: 0.32rem;
      }
      .bottom p .left{
         float: left;
-        height:0.3rem; 
+        height:0.24rem; 
         font-size:0.24rem;
         font-family:PingFangSC-Light;
         color:rgba(102,102,102,1);
-        line-height:0.3rem;
+        line-height:0.24rem;
      }
      .bottom p .right{
         float: right;
@@ -103,7 +105,7 @@
         font-size:0.24rem;
         font-family:PingFangSC-Light;
         color:rgba(102,102,102,1);
-        line-height:0.3rem;
+        line-height:0.24rem;
      }
      .bill{
         background: #fff;
@@ -125,14 +127,11 @@
          overflow: hidden;
          padding-right: 0.3rem
      }
-     .left{
+     .billbottom .lf{
          float: left;
          /* height: 1.8rem */
           padding-left: 0.27rem;
           width: 6.38rem
-     }
-     p{
-        height: 0;
      }
      .p1{
          height: 0.41rem;

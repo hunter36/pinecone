@@ -4,11 +4,21 @@
 			<p>与本人关系</p>
 			<span>请选择</span>
 				<img src="../../assets/img/jinru.png" alt="" class="jinru">
-			<popup
-			v-model="popupVisible"
-			position="bottom">
-				<span>父母</span>
-			</popup>
+				<popup
+				v-model="popupVisible"
+				position="bottom">
+					<div class="popup">
+						<h3>选择与本人关系</h3>
+						<span>确定</span>
+					</div>
+					<div class="gx">
+						<p class="p1">父母</p>
+						<p class="p2">子女</p>
+						<p class="p3">配偶</p>
+						<p class="p2">亲戚</p>
+						<p class="p4">同事</p>
+					</div>
+				</popup>
 		</li>
 		<li class="name">
 			<p>联系人姓名</p>
@@ -22,6 +32,7 @@
 			<span>请从通讯录中选择</span>
 		</li>
 	</ul>
+	<div class="zhezhao"></div>
 </template>
 
 <script>
@@ -32,7 +43,7 @@ export default {
   },
   data(){
 	  return{
-		  popupVisible:true
+		  popupVisible:false
 	  }
   },
   methods: {
@@ -115,5 +126,90 @@ export default {
 	}
 	li:nth-child(3){
 		border-bottom: 0;
+	}
+	.mint-popup{
+		height: 6.68rem;
+		width: 100%;
+		background: #fff;
+	}
+	.mint-popup .popup{
+		height: 1.36rem;
+		border-bottom: 0.01rem solid #E9E9E9;
+	}
+	.mint-popup .popup h3{
+		height:1.36rem; 
+		font-size:0.36rem;
+		font-family:PingFangSC-Light;
+		color:rgba(51,51,51,1);
+		line-height:1.36rem;
+		font-weight: 500;
+		width: 100%;
+		text-align: center;
+	}
+	.mint-popup .popup span{
+		display: inline;
+		display: block;
+		height: 1.36rem;
+		font-size:0.36rem;
+		font-family:PingFangSC-Light;
+		color:rgba(249,171,47,1);
+		line-height: 1.36rem;
+		margin: 0;
+		/* padding-right: 0.32rem; */
+		width: 1rem;
+		position: relative;
+		top: -1.36rem;
+		right: -6.32rem;
+	}
+	.mint-popup .gx{
+		height: 5.3rem;
+		padding: 0;
+	}
+	.mint-popup .gx p{
+		width: 100%;
+		text-align: center;
+		position: relative;
+		top: -1.28rem;
+	}
+	.p1{
+		height:0.3rem; 
+		font-size:0.28rem;
+		font-family:PingFangSC-Light;
+		color:rgba(202,202,202,1);
+		line-height:0.3rem;
+		margin-bottom: 0.51rem;
+		margin-top: 0.7rem
+	}
+	.p2{
+		height:0.32rem; 
+		font-size:0.32rem;
+		font-family:PingFangSC-Light;
+		color:rgba(119,119,119,1);
+		line-height:0.32rem;
+		margin-bottom: 0.54rem;
+	}
+	.p3{
+		height:0.36rem; 
+		font-size:0.36rem;
+		font-family:PingFangSC-Regular;
+		color:rgba(249,171,47,1);
+		line-height:0.36rem;
+		margin-bottom: 0.54rem;
+	}
+	.p4{
+		height:0.3rem; 
+		font-size:0.28rem;
+		font-family:PingFangSC-Light;
+		color:rgba(202,202,202,1);
+		line-height:0.3rem;
+		margin-bottom: 0.51rem;
+	}
+	.zhezhao{
+		background:rgba(0,0,0,.3);
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		display: none;
 	}
 </style>
